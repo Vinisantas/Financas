@@ -49,13 +49,13 @@ while True:
             opcao = int(input("O que deseja fazer agora?"))
 
             if opcao == 1:
-                    Financas.saldo()
+                    financas.saldo()
 
             elif opcao == 2:
-                    Financas.ganhos()
+                    financas.ganhos()
 
             elif opcao == 3:
-                    Financas.despesas()
+                    financas.despesas()
 
             else:
                     print("Fechando MOOBY!")
