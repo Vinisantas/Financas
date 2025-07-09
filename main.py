@@ -1,10 +1,12 @@
 from models.Routes import Financas  
 
 
-nome = input("Qual seu nome? ")
+nome = input("Digite seu nome: ")
+
 
 financas = Financas()
 while True:
+
     print("\n")
     print(f"Bem vindo {nome} ao MOOBY")
     print("\n")
@@ -35,7 +37,8 @@ while True:
         else:
             print("Histórico de Transações:")
             for t in financas.transacao:
-                print(f" dia: {t['data']} | tipo: {t['tipo']} | valor: R$ {t['valor']} | categoria: {t['categoria']} | descrição {t['descricao']}")
+                print(f" dia: {t['data']} | tipo: {t['tipo']} | valor: R$ {t['valor']} | categoria: {t['categoria']} | descrição: {t['descricao']}")
+                print("------------------------------------------")
     elif opcao == 0:
         print("\nFechando MOOBY!\n")
         break

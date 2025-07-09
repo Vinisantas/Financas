@@ -1,9 +1,15 @@
+import datetime
+from utils.utils import carregar_dados, salvar_dados
+
+
+
 class Financas:
     def __init__(self):
         self.saldo = 0
         self.ganhos = []
         self.despesas = []
-        self.transacao = []
+        self.transacao = carregar_dados() #carrega dados em formato json
+
 
     def extrato(self):
         self.atualizar_saldo()
@@ -31,7 +37,7 @@ class Financas:
 
     def adicionar_transacao(self, tipo, valor):
         categoria = input("Categoria: ")
-        data = input("Data (dd/mm/aaaa): ")
+        data = self.get_day_format()
         descricao = input("Descrição: ")
         transacao = {
             "tipo": tipo,
@@ -41,3 +47,11 @@ class Financas:
             "descricao": descricao
         }
         self.transacao.append(transacao)
+        salvar_dados(self.transacao)
+        print("Transação adicionada com sucesso!")
+
+    @staticmethod
+    def get_day_format():
+        now = datetime.datetime.now()
+        today = now.strftime("%Y-%m-%d %H:%M:%S")
+        return today
