@@ -1,65 +1,46 @@
+from models.Routes import Financas  
 
-class financas:
-    def __init__(self):
-        self.saldo = 0
-        self.ganhos = []
-        self.despesas = []
-
-
-    def saldo(self):
-        if not self.despesas and not self.ganhos: # lista vazia
-            print(f"Saldo igual a {self.saldo}") 
-            return self.saldo
-        else:
-            self.atualizaSaldo()
-            print(f"Saldo igual a {self.saldo}")
-
-
-    def ganhos(self):
-        adicionarGanho = float(input("Quanto quer adicionar?"))
-        self.ganhos.append(adicionarGanho)
-        print(f" Adicionado  R$ {adicionarGanho} com sucesso!")
-        return adicionarGanho
-    
-    def despesas(self):
-        adicionarDespesa = float(input("Quanto quer adicionar?"))
-        self.despesas.append(adicionarDespesa)
-        print(f" Adicionado  R$ {adicionarDespesa} com sucesso!")
-        return self.despesas
-
-    def atualizaSaldo(self):
-        self.saldo = sum(self.ganhos) - sum(self.despesas)
-        return self.saldo
-
-
-financas = financas()
 
 nome = input("Qual seu nome? ")
+
+financas = Financas()
 while True:
-            print("Bem vindo " + nome + " ao MOOBY")
-            print("------------------------------------")
-            print("1 - quanto tenho de dinheiro?")
-            print("------------------------------------")
-            print("2 - Adicionar Ganhos")
-            print("------------------------------------")
-            print("3 -  Adicionar Despesas")
-            print("------------------------------------")
-            print("0 - sair")   
+    print("\n")
+    print(f"Bem vindo {nome} ao MOOBY")
+    print("\n")
+    print("1 - Mostrar Saldo")
+    print("2 - Adicionar Entradas")
+    print("3 - Adicionar Saídas")
+    print("4 - Mostrar Histórico de Transações")
+    print("0 - Sair")
+    print("\n")
 
-            opcao = int(input("O que deseja fazer agora?"))
+    try:
+        opcao = int(input("O que deseja fazer agora? "))
+    except ValueError:
+        print("Digite uma opção válida!")
+        continue
 
-            if opcao == 1:
-                    financas.saldo()
+    print("\n")
 
-            elif opcao == 2:
-                    financas.ganhos()
-
-            elif opcao == 3:
-                    financas.despesas()
-
-            else:
-                    print("Fechando MOOBY!")
-                    break
+    if opcao == 1:
+        financas.extrato()
+    elif opcao == 2:
+        financas.adicionar_receita()
+    elif opcao == 3:
+        financas.adicionar_despesa()
+    elif opcao == 4:
+        if not financas.transacao:
+            print("Nenhuma transação registrada.")
+        else:
+            print("Histórico de Transações:")
+            for t in financas.transacao:
+                print(f" dia: {t['data']} | tipo: {t['tipo']} | valor: R$ {t['valor']} | categoria: {t['categoria']} | descrição {t['descricao']}")
+    elif opcao == 0:
+        print("\nFechando MOOBY!\n")
+        break
+    else:
+        print("Opção inválida. Tente novamente.")
 
 
 
