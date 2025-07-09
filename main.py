@@ -1,3 +1,4 @@
+from models.Relatorios import Relatorios
 from models.Routes import Financas  
 
 
@@ -5,6 +6,9 @@ nome = input("Digite seu nome: ")
 
 
 financas = Financas()
+relatorios = Relatorios(financas.transacao)
+
+
 while True:
 
     print("\n")
@@ -14,6 +18,7 @@ while True:
     print("2 - Adicionar Entradas")
     print("3 - Adicionar Saídas")
     print("4 - Mostrar Histórico de Transações")
+    print("5 - Gerar Relatório")
     print("0 - Sair")
     print("\n")
 
@@ -39,6 +44,10 @@ while True:
             for t in financas.transacao:
                 print(f" dia: {t['data']} | tipo: {t['tipo']} | valor: R$ {t['valor']} | categoria: {t['categoria']} | descrição: {t['descricao']}")
                 print("------------------------------------------")
+    elif opcao == 5:
+        categoria = input("Digite a categoria que deseja filtrar: ")
+        relatorios.filtrar_por_categoria(categoria, descricao=financas.transacao)
+
     elif opcao == 0:
         print("\nFechando MOOBY!\n")
         break
