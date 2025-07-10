@@ -5,5 +5,26 @@
         "categoria": "comida",
         "data": "2025-07-09 17:56:52",
         "descricao": "almo\u00e7o"
+    },
+    {
+        "tipo": "receita",
+        "valor": 15.0,
+        "categoria": "gasolina",
+        "data": "2025-07-10 13:30:48",
+        "descricao": "carro"
+    },
+    {
+        "tipo": "despesa",
+        "valor": 10.0,
+        "categoria": "gasolina",
+        "data": "2025-07-10 13:31:04",
+        "descricao": "coloquei na moto"
+    },
+    {
+        "tipo": "despesa",
+        "valor": 2.0,
+        "categoria": "gasosa",
+        "data": "2025-07-10 13:31:32",
+        "descricao": "coloquei na moto"
     }
 ]

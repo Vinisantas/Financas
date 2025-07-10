@@ -1,12 +1,12 @@
 from models.Relatorios import Relatorios
-from models.Routes import Financas  
+from models.Routes import Financas 
 
 
 nome = input("Digite seu nome: ")
 
 
 financas = Financas()
-relatorios = Relatorios(financas.transacao)
+relatorios = Relatorios(transacao=financas.transacao)
 
 
 while True:
@@ -45,8 +45,21 @@ while True:
                 print(f" dia: {t['data']} | tipo: {t['tipo']} | valor: R$ {t['valor']} | categoria: {t['categoria']} | descrição: {t['descricao']}")
                 print("------------------------------------------")
     elif opcao == 5:
-        categoria = input("Digite a categoria que deseja filtrar: ")
-        relatorios.filtrar_por_categoria(categoria, descricao=financas.transacao)
+        print("\n")
+        print("1- Categoria")
+        print("\n")
+        print("2- Mês")
+        print("\n")
+        print("3- Tipo")
+        gerar_relatorio = input(("Qual relatório quer gerar?"))
+        if gerar_relatorio == "1":
+            relatorios.filtrar_por_categoria()
+        elif gerar_relatorio == "2":
+            relatorios.filtrar_por_mes()
+        elif gerar_relatorio == "3":
+            relatorios.filtar_por_tipo()
+        else:
+            print("Opção inválida. Tente novamente.")
 
     elif opcao == 0:
         print("\nFechando MOOBY!\n")
