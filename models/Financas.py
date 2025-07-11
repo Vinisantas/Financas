@@ -1,6 +1,5 @@
 import datetime
-from utils.utils import carregar_dados, salvar_dados
-
+from utils.arquivos import carregar_dados, salvar_dados
 
 
 class Financas:
@@ -8,8 +7,7 @@ class Financas:
         self.saldo = 0
         self.ganhos = []
         self.despesas = []
-        self.transacao = carregar_dados() #carrega dados em formato json
-
+        self.transacao = carregar_dados()  # carrega dados em formato json
 
     def extrato(self):
         self.atualizar_saldo()
@@ -44,7 +42,7 @@ class Financas:
             "valor": valor,
             "categoria": categoria,
             "data": data,
-            "descricao": descricao
+            "descricao": descricao,
         }
         self.transacao.append(transacao)
         salvar_dados(self.transacao)
