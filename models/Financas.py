@@ -11,21 +11,20 @@ class Financas:
 
     def extrato(self):
         self.atualizar_saldo()
-        print(f"Saldo igual a {self.saldo}")
+        print(f"Saldo igual a {self.saldo}  ")
+        print("------------------------------------------")
         return self.saldo
 
-    def adicionar_receita(self):
-        valor = float(input("Quanto quer adicionar? "))
+    def adicionar_receita(self, valor, categoria, descricao):
         self.ganhos.append(valor)
-        self.adicionar_transacao("receita", valor)
+        self.adicionar_transacao("receita", valor, categoria, descricao)
         self.atualizar_saldo()
         print(f"Adicionado R$ {valor} com sucesso!")
         return valor
 
-    def adicionar_despesa(self):
-        valor = float(input("Quanto você retirou? "))
+    def adicionar_despesa(self, valor, categoria, descricao):
         self.despesas.append(valor)
-        self.adicionar_transacao("despesa", valor)
+        self.adicionar_transacao("despesa", valor, categoria, descricao)
         self.atualizar_saldo()
         print(f"Retirado R$ {valor} com sucesso!")
         return valor
@@ -33,10 +32,8 @@ class Financas:
     def atualizar_saldo(self):
         self.saldo = sum(self.ganhos) - sum(self.despesas)
 
-    def adicionar_transacao(self, tipo, valor):
-        categoria = input("Categoria: ")
+    def adicionar_transacao(self, tipo, valor, categoria, descricao):
         data = self.get_day_format()
-        descricao = input("Descrição: ")
         transacao = {
             "tipo": tipo,
             "valor": valor,
@@ -51,5 +48,5 @@ class Financas:
     @staticmethod
     def get_day_format():
         now = datetime.datetime.now()
-        today = now.strftime("%Y-%m-%d %H:%M:%S")
+        today = now.strftime("%d-%m-%Y %H:%M:%S")
         return today

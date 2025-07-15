@@ -10,7 +10,7 @@ def iniciar_aplicacao():
 
     while True:
         print("\n")
-        print(f"Bem vindo {nome} ao MOOBY")
+        print(f"Bem vindo {nome} ao MOOBY  ")
         print("\n")
         print("1 - Mostrar Saldo")
         print("2 - Adicionar Entradas")
@@ -30,13 +30,23 @@ def iniciar_aplicacao():
 
         if opcao == 1:
             financas.extrato()
+
         elif opcao == 2:
-            financas.adicionar_receita()
+            valor = float(input("Quanto quer adicionar? "))
+            categoria = input("Categoria: ")
+            descricao = input("Descrição: ")
+            financas.adicionar_receita(valor, categoria, descricao)
+
         elif opcao == 3:
-            financas.adicionar_despesa()
+            valor = float(input("Quanto quer adicionar? "))
+            categoria = input("Categoria: ")
+            descricao = input("Descrição: ")
+            financas.adicionar_despesa(valor, categoria, descricao)
+
         elif opcao == 4:
             if not financas.transacao:
                 print("Nenhuma transação registrada.")
+
             else:
                 print("Histórico de Transações:")
                 for t in financas.transacao:
@@ -50,6 +60,7 @@ def iniciar_aplicacao():
         elif opcao == 5:
             print("\n1- Categoria\n2- Mês\n3- Tipo\n4- Somar por tipo\n")
             gerar_relatorio = input("Qual relatório quer gerar? ")
+
             if gerar_relatorio == "1":
                 relatorios.filtrar_por_categoria()
             elif gerar_relatorio == "2":

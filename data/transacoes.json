@@ -33,5 +33,250 @@
         "categoria": "ganhos tele",
         "data": "2025-07-10 14:13:30",
         "descricao": "semna 1"
+    },
+    {
+        "tipo": "receita",
+        "valor": 100.0,
+        "categoria": "gasolina",
+        "data": "2025-07-11 16:13:04",
+        "descricao": "carro"
+    },
+    {
+        "tipo": "receita",
+        "valor": 150,
+        "categoria": "gasolina",
+        "data": "15-07-2025 13:06:42",
+        "descricao": "carro"
+    },
+    {
+        "tipo": "receita",
+        "valor": 150,
+        "categoria": "gasolina",
+        "data": "15-07-2025 13:09:26",
+        "descricao": "carro"
+    },
+    {
+        "tipo": "despesa",
+        "valor": 150,
+        "categoria": "Restaurante",
+        "data": "15-07-2025 13:09:26",
+        "descricao": "Comida"
+    },
+    {
+        "tipo": "receita",
+        "valor": 150,
+        "categoria": "gasolina",
+        "data": "15-07-2025 13:17:47",
+        "descricao": "carro"
+    },
+    {
+        "tipo": "despesa",
+        "valor": 150,
+        "categoria": "Restaurante",
+        "data": "15-07-2025 13:17:47",
+        "descricao": "Comida"
+    },
+    {
+        "tipo": "receita",
+        "valor": 200,
+        "categoria": "sal\u00e1rio",
+        "data": "15-07-2025 13:17:47",
+        "descricao": "pagamento"
+    },
+    {
+        "tipo": "despesa",
+        "valor": 50,
+        "categoria": "alimenta\u00e7\u00e3o",
+        "data": "15-07-2025 13:17:47",
+        "descricao": "almo\u00e7o"
+    },
+    {
+        "tipo": "receita",
+        "valor": 150,
+        "categoria": "gasolina",
+        "data": "15-07-2025 13:18:07",
+        "descricao": "carro"
+    },
+    {
+        "tipo": "despesa",
+        "valor": 150,
+        "categoria": "Restaurante",
+        "data": "15-07-2025 13:18:07",
+        "descricao": "Comida"
+    },
+    {
+        "tipo": "receita",
+        "valor": 200,
+        "categoria": "sal\u00e1rio",
+        "data": "15-07-2025 13:18:07",
+        "descricao": "pagamento"
+    },
+    {
+        "tipo": "despesa",
+        "valor": 50,
+        "categoria": "alimenta\u00e7\u00e3o",
+        "data": "15-07-2025 13:18:07",
+        "descricao": "almo\u00e7o"
+    },
+    {
+        "tipo": "receita",
+        "valor": 200,
+        "categoria": "sal\u00e1rio",
+        "data": "15-07-2025 13:18:07",
+        "descricao": "pagamento"
+    },
+    {
+        "tipo": "despesa",
+        "valor": 150,
+        "categoria": "alimenta\u00e7\u00e3o",
+        "data": "15-07-2025 13:18:07",
+        "descricao": "almo\u00e7o"
+    },
+    {
+        "tipo": "receita",
+        "valor": 150,
+        "categoria": "gasolina",
+        "data": "15-07-2025 13:18:51",
+        "descricao": "carro"
+    },
+    {
+        "tipo": "despesa",
+        "valor": 150,
+        "categoria": "Restaurante",
+        "data": "15-07-2025 13:18:51",
+        "descricao": "Comida"
+    },
+    {
+        "tipo": "receita",
+        "valor": 200,
+        "categoria": "sal\u00e1rio",
+        "data": "15-07-2025 13:18:51",
+        "descricao": "pagamento"
+    },
+    {
+        "tipo": "despesa",
+        "valor": 50,
+        "categoria": "alimenta\u00e7\u00e3o",
+        "data": "15-07-2025 13:18:51",
+        "descricao": "almo\u00e7o"
+    },
+    {
+        "tipo": "receita",
+        "valor": 200,
+        "categoria": "sal\u00e1rio",
+        "data": "15-07-2025 13:18:51",
+        "descricao": "pagamento"
+    },
+    {
+        "tipo": "despesa",
+        "valor": 150,
+        "categoria": "alimenta\u00e7\u00e3o",
+        "data": "15-07-2025 13:18:51",
+        "descricao": "almo\u00e7o"
+    },
+    {
+        "tipo": "receita",
+        "valor": 150,
+        "categoria": "gasolina",
+        "data": "15-07-2025 13:19:22",
+        "descricao": "carro"
+    },
+    {
+        "tipo": "despesa",
+        "valor": 150,
+        "categoria": "Restaurante",
+        "data": "15-07-2025 13:19:22",
+        "descricao": "Comida"
+    },
+    {
+        "tipo": "receita",
+        "valor": 200,
+        "categoria": "sal\u00e1rio",
+        "data": "15-07-2025 13:19:22",
+        "descricao": "pagamento"
+    },
+    {
+        "tipo": "despesa",
+        "valor": 50,
+        "categoria": "alimenta\u00e7\u00e3o",
+        "data": "15-07-2025 13:19:22",
+        "descricao": "almo\u00e7o"
+    },
+    {
+        "tipo": "receita",
+        "valor": 200,
+        "categoria": "sal\u00e1rio",
+        "data": "15-07-2025 13:19:22",
+        "descricao": "pagamento"
+    },
+    {
+        "tipo": "despesa",
+        "valor": 150,
+        "categoria": "alimenta\u00e7\u00e3o",
+        "data": "15-07-2025 13:19:22",
+        "descricao": "almo\u00e7o"
+    },
+    {
+        "tipo": "receita",
+        "valor": 150,
+        "categoria": "gasolina",
+        "data": "15-07-2025 13:22:49",
+        "descricao": "carro"
+    },
+    {
+        "tipo": "despesa",
+        "valor": 150,
+        "categoria": "Restaurante",
+        "data": "15-07-2025 13:22:49",
+        "descricao": "Comida"
+    },
+    {
+        "tipo": "receita",
+        "valor": 200,
+        "categoria": "sal\u00e1rio",
+        "data": "15-07-2025 13:22:49",
+        "descricao": "pagamento"
+    },
+    {
+        "tipo": "despesa",
+        "valor": 50,
+        "categoria": "alimenta\u00e7\u00e3o",
+        "data": "15-07-2025 13:22:49",
+        "descricao": "almo\u00e7o"
+    },
+    {
+        "tipo": "receita",
+        "valor": 200,
+        "categoria": "sal\u00e1rio",
+        "data": "15-07-2025 13:22:49",
+        "descricao": "pagamento"
+    },
+    {
+        "tipo": "despesa",
+        "valor": 150,
+        "categoria": "alimenta\u00e7\u00e3o",
+        "data": "15-07-2025 13:22:49",
+        "descricao": "almo\u00e7o"
+    },
+    {
+        "tipo": "receita",
+        "valor": 9999,
+        "categoria": "investimento",
+        "data": "15-07-2025 13:22:49",
+        "descricao": "lucro inesperado"
+    },
+    {
+        "tipo": "receita",
+        "valor": 500,
+        "categoria": "gasolina",
+        "data": "15-07-2025 13:22:49",
+        "descricao": "carro"
+    },
+    {
+        "tipo": "receita",
+        "valor": 1000,
+        "categoria": "comida",
+        "data": "15-07-2025 13:22:49",
+        "descricao": "almo\u00e7o"
     }
 ]
