@@ -1,85 +1,90 @@
 # 💰 MOOBY - App de Controle Financeiro Pessoal
 
 **MOOBY** é um projeto pessoal feito em Python com foco no gerenciamento de finanças.
-Com ele, você pode acompanhar seus ganhos, despesas e o saldo atualizado, de forma simples, organizada e extensível.
+Com ele, você pode acompanhar seus **ganhos**, **despesas** e o **saldo atualizado**, de forma simples, organizada e extensível.
+
+![Coverage](https://codecov.io/gh/Vinisantas/appFinances/branch/main/graph/badge.svg)
 
 ---
 
-## 🚀 Funcionalidades atuais
+## 🚀 Funcionalidades Atuais
 
-✅ Registro de ganhos
-✅ Registro de despesas
-✅ Cálculo automático de saldo
-✅ Estrutura orientada a objetos
-✅ Menu interativo no terminal
-✅ Estrutura preparada para evolução
-
----
-
-## 🎯 Objetivos futuros
-
-🔜 Registro de transações com:
-- Tipo (ganho/despesa)
-- Categoria
-- Descrição
-- Data/hora
-
-🔜 Histórico completo com filtros
-🔜 Relatórios e análises por período e categoria
-🔜 Banco de dados (SQLite/MySQL/PostgreSQL)
-🔜 Containerização com Docker
-🔜 CI/CD com GitHub Actions (DevOps)
-🔜 Interface Web/Mobile
-🔜 Integração com IA para sugestões e previsões financeiras
+- ✅ Registro de ganhos
+- ✅ Registro de despesas
+- ✅ Cálculo automático de saldo
+- ✅ Estrutura orientada a objetos
+- ✅ Menu interativo no terminal
+- ✅ Testes automatizados com `pytest`
+- ✅ Validação de código com `flake8` + `black` via `pre-commit`
+- ✅ Estrutura modular com `models`, `views` e `test`
 
 ---
 
-## 🛠️ Tecnologias
+## 🎯 Objetivos Futuros
 
-- Python 3.x
-- Orientação a Objetos
-- Git + GitHub
-
-> Futuro: Docker • SQLite/MySQL • Flask/FastAPI • GitHub Actions • IA com Python
-
----
-
-## 🧠 Por que esse projeto?
-
-Esse app foi iniciado com o objetivo de praticar lógica de programação e boas práticas de Python, com o plano de evoluir gradualmente para um sistema real completo.
-A ideia é dominar cada etapa do ciclo de desenvolvimento: do código local ao deploy em produção.
+- 🔜 Registro completo de transações (categoria, descrição, data)
+- 🔜 Histórico com filtros
+- 🔜 Relatórios por período/categoria (`Relatorio.py`)
+- 🔜 Integração com banco de dados (SQLite / MySQL)
+- 🔜 Containerização com Docker
+- 🔜 CI/CD com GitHub Actions
+- 🔜 Interface Web/Mobile (Flask ou FastAPI + React)
+- 🔜 IA para análises e previsões financeiras
 
 ---
 
-## 🧑‍💻 Desenvolvido por
+## 🧪 Como executar os testes
 
-[VINIXX](https://github.com/Vinisantas)
+```bash
+# Instale as dependências
+pip install -r requirements.txt
+
+# Rode os testes com cobertura
+pytest --cov=models
+
+
+📂 Estrutura do Projeto
+
+controle-financeiro/
+├── models/
+│   ├── Financas.py        # Lógica de receitas, despesas, saldo e transações
+│   ├── Relatorio.py       # (em desenvolvimento)
+│   └── __init__.py
+├── views/
+│   └── terminal.py        # Interface de terminal com menu interativo
+├── test/
+│   └── test_financas.py   # Testes unitários com pytest
+├── data/
+│   └── transacoes.json    # Armazenamento temporário das transações
+├── .pre-commit-config.yaml
+├── requirements.txt
+├── README.md
+└── .gitignore
+
+
+🛠️ Tecnologias Utilizadas
+Python 3.13
+
+Pytest + Coverage
+
+Flake8 + Black + Pre-commit
+
+Git + GitHub
+
+Futuro: Docker • SQLite/MySQL • FastAPI • GitHub Actions • IA com Python
+
+🧠 Por que esse projeto?
+Este app nasceu como prática de lógica de programação e boas práticas em Python, com o objetivo de evoluir para um sistema completo de finanças pessoais, do terminal à web, com foco em aprendizado real.
+
+🧑‍💻 Desenvolvedor
+VINIXX
 Apaixonado por tecnologia, código limpo, academia e Deus 🙏
 Estudante de programação focado em desenvolvimento web, automação e IA.
 
----
-
-## 📂 Estrutura inicial do projeto
-
-controle-financeiro/
-├── financas.py # Código principal
-├── README.md # Este arquivo
-├── .gitignore
-└── requirements.txt # (opcional, será adicionado futuramente)
-
-
-
----
-
-## 📢 Contribuições
-
+📢 Contribuições
 Este projeto é pessoal, mas ideias são bem-vindas!
-Sugestões e melhorias podem ser abertas como issues.
+Sugestões e melhorias podem ser abertas como issues ou pull requests.
 
----
-
-## 📌 Status
-
-🟢 **Em desenvolvimento contínuo**
-
----
+📌 Status
+🟢 Em desenvolvimento contínuo
+```
