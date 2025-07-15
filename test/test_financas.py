@@ -1,9 +1,4 @@
-from models.Financas import Financas  # importa a classe Financas
-import sys
-import os
-
-# Garante que o Python encontre os módulos da pasta acima
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+from models.Financas import Financas
 
 
 def test_adicionar_receita():
