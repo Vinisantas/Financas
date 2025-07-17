@@ -530,5 +530,26 @@
         "categoria": "comida",
         "data": "15-07-2025 15:39:52",
         "descricao": "almo\u00e7o"
+    },
+    {
+        "tipo": "receita",
+        "valor": 100.0,
+        "categoria": "comida",
+        "data": "16-07-2025 23:05:47",
+        "descricao": "almo\u00e7o no restaurante"
+    },
+    {
+        "tipo": "receita",
+        "valor": 100.0,
+        "categoria": "gasolina",
+        "data": "16-07-2025 23:09:02",
+        "descricao": "tele entrega"
+    },
+    {
+        "tipo": "receita",
+        "valor": 100.0,
+        "categoria": "caabelo",
+        "data": "16-07-2025 23:18:51",
+        "descricao": "sal\u00e3o]"
     }
 ]
