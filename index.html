@@ -1,0 +1,28 @@
+<!-- index.html -->
+<form id="form-receita">
+  <input name="valor" placeholder="Valor" />
+  <input name="categoria" placeholder="Categoria" />
+  <input name="descricao" placeholder="Descrição" />
+  <button type="submit">Adicionar Receita</button>
+</form>
+
+<script>
+document.getElementById("form-receita").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  const form = new FormData(e.target);
+  const payload = {
+    valor: parseFloat(form.get("valor")),
+    categoria: form.get("categoria"),
+    descricao: form.get("descricao")
+  };
+
+  const response = await fetch("http://localhost:8000/receita", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload)
+  });
+
+  const result = await response.json();
+  alert(result.mensagem);
+});
+</script>

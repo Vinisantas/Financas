@@ -11,22 +11,18 @@ class Financas:
 
     def extrato(self):
         self.atualizar_saldo()
-        print(f"Saldo igual a {self.saldo}  ")
-        print("------------------------------------------")
         return self.saldo
 
     def adicionar_receita(self, valor, categoria, descricao):
         self.ganhos.append(valor)
         self.adicionar_transacao("receita", valor, categoria, descricao)
         self.atualizar_saldo()
-        print(f"Adicionado R$ {valor} com sucesso!")
         return valor
 
     def adicionar_despesa(self, valor, categoria, descricao):
         self.despesas.append(valor)
         self.adicionar_transacao("despesa", valor, categoria, descricao)
         self.atualizar_saldo()
-        print(f"Retirado R$ {valor} com sucesso!")
         return valor
 
     def atualizar_saldo(self):
@@ -43,7 +39,6 @@ class Financas:
         }
         self.transacao.append(transacao)
         salvar_dados(self.transacao)
-        print("Transação adicionada com sucesso!")
 
     @staticmethod
     def get_day_format():

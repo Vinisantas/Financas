@@ -3,9 +3,6 @@ from models.Relatorio import Relatorios
 from controllers.menu import limpar_tela, pausar_menu
 
 
-
-
-
 def iniciar_aplicacao():
     nome = input("Digite seu nome: ")
 
@@ -25,8 +22,6 @@ def iniciar_aplicacao():
         print("0 - Sair")
         print("\n")
 
-        
-
         try:
             opcao = int(input("O que deseja fazer agora? "))
         except ValueError:
@@ -40,8 +35,6 @@ def iniciar_aplicacao():
             print("\n")
             pausar_menu()
             limpar_tela()
-            
-            
 
         elif opcao == 2:
             valor = float(input("Quanto quer adicionar? "))
