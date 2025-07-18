@@ -30,10 +30,9 @@ async def adicionar_receita(receita: Receita):
     return {"mensagem": "Receita adicionada com sucesso!"}
 
 
-
 @app.post("/despesa")
 async def adicionar_despesa(despesa: Despesa):
-    f.adicionar_despesa(despesa.descricao, despesa.valor, despesa.categoria )
+    f.adicionar_despesa(despesa.descricao, despesa.valor, despesa.categoria)
     return {"mensagem": "Despesa adicionada com sucesso!"}
 
 
