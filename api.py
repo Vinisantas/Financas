@@ -20,20 +20,26 @@ app.add_middleware(
 
 
 @app.get("/saldo")
-async def extrato():
-    return {"saldo": f.extrato()}
+async def saldo():
+    return {"saldo": f.Saldo()}
 
 
 @app.post("/receita")
 async def adicionar_receita(receita: Receita):
-    f.adicionar_receita(receita.valor, receita.categoria, receita.descricao)
+    f.adicionar_receita(receita.descricao, receita.valor, receita.categoria)
     return {"mensagem": "Receita adicionada com sucesso!"}
+
 
 
 @app.post("/despesa")
 async def adicionar_despesa(despesa: Despesa):
-    f.adicionar_despesa(despesa.valor, despesa.categoria, despesa.descricao)
+    f.adicionar_despesa(despesa.descricao, despesa.valor, despesa.categoria )
     return {"mensagem": "Despesa adicionada com sucesso!"}
+
+
+@app.get("/transacoes")
+async def get_transacoes():
+    return {"transacoes": f.listar_todas()}
 
 
 @app.get("/relatorios/categoria")
