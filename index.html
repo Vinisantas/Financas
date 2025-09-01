@@ -14,6 +14,7 @@
     <input name="categoria" placeholder="Categoria" required />
     <input name="descricao" placeholder="Descrição" required />
     <button type="submit">Adicionar Receita</button>
+    <div id="mensagem-receita"></div> <!-- Div para mensagens de receita -->
   </form>
 
     <h1>Adicionar Despesa</h1>
@@ -22,11 +23,17 @@
     <input name="categoria" placeholder="Categoria" required />
     <input name="descricao" placeholder="Descrição" required />
     <button type="submit">Adicionar Despesa</button>
+     <div id="mensagem-despesa"></div><!-- Div para mensagens de despesa -->
   </form>
 
   <hr />
   <h2>Transações</h2>
   <div id="lista-transacoes"></div>
+
+  <h1>Carregar Extrato Nubank</h1>
+  <input type="file" id="csvFile" accept=".csv">
+  <button onclick="uploadFile()">Enviar</button>
+  <div id="message"></div>
 
   <script>
     const formReceita = document.getElementById("form-receita");
@@ -49,13 +56,13 @@
         });
 
         const result = await response.json();
-        alert(result.mensagem);
+        document.getElementById("mensagem-receita").textContent = result.mensagem; // Exibe a mensagem na div
 
         formReceita.reset(); // limpa o formulário
         carregarTransacoes(); // atualiza a lista automaticamente
       } catch (error) {
         console.error("Erro ao adicionar receita:", error);
-        alert("Erro ao adicionar receita.");
+        document.getElementById("mensagem-receita").textContent = "Erro ao adicionar receita."; // Exibe a mensagem de erro na div
       }
     });
 
@@ -80,25 +87,28 @@
         });
 
         const result = await response.json();
-        alert(result.mensagem);
+        document.getElementById("mensagem-despesa").textContent = result.mensagem;
 
         formDespesa.reset(); // limpa o formulário
         carregarTransacoes(); // atualiza a lista automaticamente
       } catch (error) {
         console.error("Erro ao adicionar despesa:", error);
-        alert("Erro ao adicionar despesa.");
+        document.getElementById("mensagem-despesa").textContent = "Erro ao adicionar despesa.";
       }
     });
 
     async function carregarTransacoes() {
       try {
         const res = await fetch("http://localhost:8000/transacoes");
+        if (!res.ok) {
+          throw new Error(`Erro ao carregar transações: ${res.status}`);
+        }
         const data = await res.json();
 
         const lista = document.getElementById("lista-transacoes");
         lista.innerHTML = "";
 
-        if (data.transacoes.length === 0) {
+        if (!data || !data.transacoes || data.transacoes.length === 0) {
           lista.innerHTML = "<p>Nenhuma transação registrada.</p>";
           return;
         }
@@ -141,6 +151,37 @@
     carregaSaldo();
     carregarTransacoes();
 
+    async function uploadFile() {
+      const fileInput = document.getElementById('csvFile');
+      const file = fileInput.files[0];
+      const messageDiv = document.getElementById('message');
+
+      if (!file) {
+        messageDiv.innerText = 'Por favor, selecione um arquivo CSV.';
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      try {
+        const response = await fetch('http://127.0.0.1:8000/adiciona_csv', { // Ajuste a URL se necessário
+          method: 'POST',
+          body: formData,
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          messageDiv.innerText = `Arquivo "${data.filename}" processado com sucesso!`;
+          carregarTransacoes(); //Recarrega as transações após o upload
+        } else {
+          messageDiv.innerText = `Erro: ${data.detail || data.error}`;
+        }
+      } catch (error) {
+        messageDiv.innerText = `Erro ao enviar o arquivo: ${error}`;
+      }
+    }
 
   </script>
 </body>

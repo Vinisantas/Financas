@@ -1,5 +1,6 @@
-import sqlite3  # Importa o módulo para usar SQLite
-from datetime import datetime  # Para pegar a data atual
+from datetime import datetime
+import sqlite3
+import csv  # Importa a biblioteca csv
 
 
 class Financas:
@@ -29,47 +30,130 @@ class Financas:
     def adicionar_receita(self, descricao, valor, categoria):
         data = datetime.now().strftime("%d-%m-%Y")  # Pega a data atual
         self.cursor.execute(
-            "INSERT INTO transacao (tipo, valor, categoria, descricao, data) "
-            "VALUES (?, ?, ?, ?, ?)",
+            """
+            INSERT INTO transacao (tipo, valor, categoria, descricao, data)
+            VALUES (?, ?, ?, ?, ?)
+        """,
             ("r", valor, categoria, descricao, data),
         )
-        self.ganhos.append(valor)
         self.conn.commit()
+        self.ganhos.append(
+            {
+                "tipo": "r",
+                "valor": valor,
+                "categoria": categoria,
+                "descricao": descricao,
+                "data": data,
+            }
+        )
 
     def adicionar_despesa(self, descricao, valor, categoria):
-        data = datetime.now().strftime("%d-%m-%Y")
+        data = datetime.now().strftime("%d-%m-%Y")  # Pega a data atual
         self.cursor.execute(
-            "INSERT INTO transacao (tipo, valor, categoria, descricao, data)"
-            "VALUES (?, ?, ?, ?, ?)",
+            """
+            INSERT INTO transacao (tipo, valor, categoria, descricao, data)
+            VALUES (?, ?, ?, ?, ?)
+        """,
             ("d", valor, categoria, descricao, data),
         )
-        self.despesas.append(valor)
         self.conn.commit()
+        self.despesas.append(
+            {
+                "tipo": "d",
+                "valor": valor,
+                "categoria": categoria,
+                "descricao": descricao,
+                "data": data,
+            }
+        )
 
     def Saldo(self, saldo=0):
-        if not self.ganhos and not self.despesas:
-            return saldo
-        saldo += sum(self.ganhos)
-        saldo -= sum(self.despesas)
+        self.listar_todas()
+        for transacao in self.ganhos:
+            saldo += transacao["valor"]
+        for transacao in self.despesas:
+            saldo -= transacao["valor"]
         return saldo
 
     def listar_todas(self):
-        self.cursor.execute("SELECT * FROM transacao")
-        resultados = self.cursor.fetchall()
-
-        transacoes = []
-        for row in resultados:
-            transacoes.append(
+        self.ganhos = []
+        self.despesas = []
+        self.cursor.execute("SELECT * FROM transacao WHERE tipo = 'r'")
+        for linha in self.cursor.fetchall():
+            self.ganhos.append(
                 {
-                    "id": row[0],
-                    "tipo": row[1],
-                    "valor": row[2],
-                    "categoria": row[3],
-                    "descricao": row[4],
-                    "data": row[5],
+                    "tipo": linha[1],
+                    "valor": linha[2],
+                    "categoria": linha[3],
+                    "descricao": linha[4],
+                    "data": linha[5],
                 }
             )
-        return transacoes
+        self.cursor.execute("SELECT * FROM transacao WHERE tipo = 'd'")
+        for linha in self.cursor.fetchall():
+            self.despesas.append(
+                {
+                    "tipo": linha[1],
+                    "valor": linha[2],
+                    "categoria": linha[3],
+                    "descricao": linha[4],
+                    "data": linha[5],
+                }
+            )
+        return self.ganhos + self.despesas
 
     def fechar(self):
-        self.conn.close()  # Fecha a conexão com o banco
+        self.conn.close()
+
+    def processa_extrato(self, arquivo_csv):
+        pass
+
+    def categorizar_transacao(self, descricao):
+        # Aqui você pode usar regras ou ML para determinar a categoria
+        # Por enquanto, vamos usar uma lógica simples de exemplo
+        descricao_lower = descricao.lower()
+        if "supermercado" in descricao_lower:
+            return "Alimentação"
+        elif "combustivel" in descricao_lower:
+            return "Transporte"
+        elif "restaurante" in descricao_lower:
+            return "Lazer"
+        else:
+            return "Outros"
+
+    def determinar_tipo_transacao(self, descricao):
+        # Aqui você pode usar regras ou ML para determinar se é receita ou despesa
+        # Por enquanto, vamos usar uma lógica simples de exemplo
+        descricao_lower = descricao.lower()
+        if "transferência recebida" in descricao_lower or "recebido por pix" in descricao_lower or "transferência Recebida" in descricao_lower:
+            return "r"
+        else:
+            return "d"
+
+    def processar_extrato_nubank(self, arquivo_csv):
+        try:
+            with open(arquivo_csv, 'r', encoding='utf-8') as arquivo:
+                leitor_csv = csv.DictReader(arquivo)
+                for linha in leitor_csv:
+                    # Extrai os dados da linha do CSV (ajuste os nomes das colunas)
+                    data = linha['Data']  # Ajuste para o nome da coluna correta
+                    descricao = linha['Descrição']  # Ajuste para o nome da coluna correta
+                    valor = float(linha['Valor'].replace(',', '.'))  # Ajuste e converte para float
+
+                    # Lógica de categorização (substitua com seu modelo de ML)
+                    categoria = self.categorizar_transacao(descricao)
+                    tipo = self.determinar_tipo_transacao(descricao, valor)  # 'r' ou 'd'
+
+                    if tipo == 'r':
+                        self.adicionar_receita(descricao, valor, categoria)
+                    elif tipo == 'd':
+                        self.adicionar_despesa(descricao, valor, categoria)
+                    else:
+                        print(f"Aviso: Tipo de transação desconhecido para: {descricao}")
+
+            print("Extrato do Nubank processado com sucesso!")
+
+        except FileNotFoundError:
+            print(f"Erro: Arquivo não encontrado: {arquivo_csv}")
+        except Exception as e:
+            print(f"Erro ao processar o extrato: {e}")
