@@ -137,25 +137,34 @@ class Financas:
             with open(arquivo_csv, 'r', encoding='utf-8') as arquivo:
                 leitor_csv = csv.DictReader(arquivo)
                 for linha in leitor_csv:
-                    # Extrai os dados da linha do CSV (ajuste os nomes das colunas)
-                    data = linha['Data']  # Ajuste para o nome da coluna correta
-                    descricao = linha['Descrição']  # Ajuste para o nome da coluna correta
-                    valor = float(linha['Valor'].replace(',', '.'))  # Ajuste e converte para float
+                    # Garante que a coluna exista
+                    data = linha.get('Data')
+                    descricao = linha.get('Descrição') or linha.get('descricao') or ''
+                    valor_str = linha.get('Valor') or linha.get('valor') or '0'
 
-                    # Lógica de categorização (substitua com seu modelo de ML)
+                    # Converte valor
+                    try:
+                        valor = float(valor_str.replace(',', '.'))
+                    except:
+                        valor = 0.0
+
+                    # Se não houver descrição, ignora a linha
+                    if not descricao:
+                        continue
+
                     categoria = self.categorizar_transacao(descricao)
-                    tipo = self.determinar_tipo_transacao(descricao, valor)  # 'r' ou 'd'
+                    tipo = self.determinar_tipo_transacao(descricao, valor)
+
 
                     if tipo == 'r':
                         self.adicionar_receita(descricao, valor, categoria, data)
                     elif tipo == 'd':
                         self.adicionar_despesa(descricao, valor, categoria, data)
-                    else:
-                        print(f"Aviso: Tipo de transação desconhecido para: {descricao}")
 
-            print("Extrato do Nubank processado com sucesso!")
+            print("Extrato  processado com sucesso!")
 
         except FileNotFoundError:
             print(f"Erro: Arquivo não encontrado: {arquivo_csv}")
         except Exception as e:
             print(f"Erro ao processar o extrato: {e}")
+
