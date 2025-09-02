@@ -11,43 +11,39 @@ import os  # Importe o módulo os
 import logging
 
 # Configuração de logs
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
+# Inicializa
 f = Financas()
 app = FastAPI()
 
-# Permitir requisições de qualquer origem
+# Permite qualquer origem (para testes)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # ou use ["http://localhost:3000"]
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-
+# --- Rotas ---
 @app.get("/saldo")
 async def saldo():
     return {"saldo": f.Saldo()}
 
-
 @app.post("/receita")
 async def adicionar_receita(receita: Receita):
     f.adicionar_receita(receita.descricao, receita.valor, receita.categoria)
-    return {"mensagem": "Receita adicionada com sucesso!"}
-
+    return {"mensagem": "Receita adicionada com sucesso!", "transacoes": f.listar_todas()}
 
 @app.post("/despesa")
 async def adicionar_despesa(despesa: Despesa):
     f.adicionar_despesa(despesa.descricao, despesa.valor, despesa.categoria)
-    return {"mensagem": "Despesa adicionada com sucesso!"}
-
+    return {"mensagem": "Despesa adicionada com sucesso!", "transacoes": f.listar_todas()}
 
 @app.get("/transacoes")
 async def get_transacoes():
     return {"transacoes": f.listar_todas()}
-
-
 
 @app.post("/adiciona_csv")
 async def upload_csv(file: UploadFile = File(...)):
@@ -55,18 +51,19 @@ async def upload_csv(file: UploadFile = File(...)):
         raise HTTPException(status_code=400, detail="O arquivo deve ser um CSV")
     try:
         contents = await file.read()
-        # Salva o arquivo temporariamente
-        temp_file_path = f"temp_{file.filename}"  # Nome do arquivo temporário
+        temp_file_path = f"temp_{file.filename}"
         with open(temp_file_path, "wb") as temp_file:
             temp_file.write(contents)
 
-        # Processa o extrato usando a função do Financas
         f.processar_extrato_nubank(temp_file_path)
-
-        # Remove o arquivo temporário
         os.remove(temp_file_path)
 
-        return {"filename": file.filename, "message": "Extrato processado com sucesso!"}
+        # Retorna as transações atualizadas diretamente
+        return {
+            "filename": file.filename,
+            "message": "Extrato processado com sucesso!",
+            "transacoes": f.listar_todas()
+        }
     except Exception as e:
         logging.error(f"Erro ao processar o CSV: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Erro ao processar o CSV: {e}")

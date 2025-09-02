@@ -115,7 +115,7 @@
 
         data.transacoes.forEach((t) => {
           const item = document.createElement("div");
-          item.textContent = `${t.tipo.toUpperCase()} | R$${parseFloat(t.valor).toFixed(2)} |${t.categoria} | ${t.descricao} | ${t.data}`;
+          item.textContent = `${t.tipo.toUpperCase()} | R$${parseFloat(t.valor).toFixed(2)} |${t.categoria} | ${t.data}`;
           lista.appendChild(item);
         });
       } catch (error) {
