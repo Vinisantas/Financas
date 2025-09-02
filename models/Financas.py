@@ -27,8 +27,8 @@ class Financas:
         )
         self.conn.commit()
 
-    def adicionar_receita(self, descricao, valor, categoria):
-        data = datetime.now().strftime("%d-%m-%Y")  # Pega a data atual
+    def adicionar_receita(self, descricao, valor, categoria, data):
+        #data = datetime.now().strftime("%d-%m-%Y")  # Pega a data atual
         self.cursor.execute(
             """
             INSERT INTO transacao (tipo, valor, categoria, descricao, data)
@@ -47,8 +47,8 @@ class Financas:
             }
         )
 
-    def adicionar_despesa(self, descricao, valor, categoria):
-        data = datetime.now().strftime("%d-%m-%Y")  # Pega a data atual
+    def adicionar_despesa(self, descricao, valor, categoria, data):
+        #data = datetime.now().strftime("%d-%m-%Y")  # Pega a data atual
         self.cursor.execute(
             """
             INSERT INTO transacao (tipo, valor, categoria, descricao, data)
@@ -105,26 +105,28 @@ class Financas:
     def fechar(self):
         self.conn.close()
 
-    def processa_extrato(self, arquivo_csv):
-        pass
 
     def categorizar_transacao(self, descricao):
         # Aqui você pode usar regras ou ML para determinar a categoria
         # Por enquanto, vamos usar uma lógica simples de exemplo
         descricao_lower = descricao.lower()
-        if "supermercado" in descricao_lower:
+        if "mercado" in descricao_lower:
             return "Alimentação"
-        elif "combustivel" in descricao_lower:
+        elif "Abastecedora" in descricao_lower or "Wingert" in descricao_lower:
             return "Transporte"
         elif "restaurante" in descricao_lower:
             return "Lazer"
+        elif "UNINTER" in descricao_lower:
+            return "Faculdade"
         else:
             return "Outros"
 
-    def determinar_tipo_transacao(self, descricao):
+    def determinar_tipo_transacao(self, descricao, valor):
         # Aqui você pode usar regras ou ML para determinar se é receita ou despesa
         # Por enquanto, vamos usar uma lógica simples de exemplo
         descricao_lower = descricao.lower()
+        if valor < 0:
+            return "d"
         if "transferência recebida" in descricao_lower or "recebido por pix" in descricao_lower or "transferência Recebida" in descricao_lower:
             return "r"
         else:
@@ -145,9 +147,9 @@ class Financas:
                     tipo = self.determinar_tipo_transacao(descricao, valor)  # 'r' ou 'd'
 
                     if tipo == 'r':
-                        self.adicionar_receita(descricao, valor, categoria)
+                        self.adicionar_receita(descricao, valor, categoria, data)
                     elif tipo == 'd':
-                        self.adicionar_despesa(descricao, valor, categoria)
+                        self.adicionar_despesa(descricao, valor, categoria, data)
                     else:
                         print(f"Aviso: Tipo de transação desconhecido para: {descricao}")
 

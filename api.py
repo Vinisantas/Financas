@@ -48,6 +48,43 @@ async def get_transacoes():
     return {"transacoes": f.listar_todas()}
 
 
+
+@app.post("/adiciona_csv")
+async def upload_csv(file: UploadFile = File(...)):
+    if not file.filename.endswith(".csv"):
+        raise HTTPException(status_code=400, detail="O arquivo deve ser um CSV")
+    try:
+        contents = await file.read()
+        # Salva o arquivo temporariamente
+        temp_file_path = f"temp_{file.filename}"  # Nome do arquivo temporário
+        with open(temp_file_path, "wb") as temp_file:
+            temp_file.write(contents)
+
+        # Processa o extrato usando a função do Financas
+        f.processar_extrato_nubank(temp_file_path)
+
+        # Remove o arquivo temporário
+        os.remove(temp_file_path)
+
+        return {"filename": file.filename, "message": "Extrato processado com sucesso!"}
+    except Exception as e:
+        logging.error(f"Erro ao processar o CSV: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Erro ao processar o CSV: {e}")
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 @app.get("/relatorios/categoria")
 async def relatorio_por_categoria(
     categoria: str = Query(..., description="Categoria para filtrar")
@@ -80,25 +117,3 @@ async def relatorio_soma_por_tipo(
     relatorios = Relatorios(transacao=f.transacao)
     relatorio = relatorios.soma_por_tipo_api(tipo)
     return {"relatorio": relatorio}
-
-@app.post("/adiciona_csv")
-async def upload_csv(file: UploadFile = File(...)):
-    if not file.filename.endswith(".csv"):
-        raise HTTPException(status_code=400, detail="O arquivo deve ser um CSV")
-    try:
-        contents = await file.read()
-        # Salva o arquivo temporariamente
-        temp_file_path = f"temp_{file.filename}"  # Nome do arquivo temporário
-        with open(temp_file_path, "wb") as temp_file:
-            temp_file.write(contents)
-
-        # Processa o extrato usando a função do Financas
-        f.processar_extrato_nubank(temp_file_path)
-
-        # Remove o arquivo temporário
-        os.remove(temp_file_path)
-
-        return {"filename": file.filename, "message": "Extrato processado com sucesso!"}
-    except Exception as e:
-        logging.error(f"Erro ao processar o CSV: {e}", exc_info=True)
-        raise HTTPException(status_code=500, detail=f"Erro ao processar o CSV: {e}")
