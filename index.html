@@ -11,8 +11,8 @@
   <h1>Adicionar Receita</h1>
   <form id="form-receita">
     <input name="valor" type="number" step="0.01" placeholder="Valor" required />
-    <input name="categoria" placeholder="Categoria" required />
     <input name="descricao" placeholder="Descrição" required />
+    <input name="categoria" placeholder="Categoria" required />
     <button type="submit">Adicionar Receita</button>
     <div id="mensagem-receita"></div> <!-- Div para mensagens de receita -->
   </form>
@@ -20,20 +20,21 @@
     <h1>Adicionar Despesa</h1>
   <form id="form-despesa">
     <input name="valor" type="number" step="0.01" placeholder="Valor" required />
-    <input name="categoria" placeholder="Categoria" required />
     <input name="descricao" placeholder="Descrição" required />
+    <select name="Categoria">
+      <option value="Alimentação">Alimentação</option>
+      <option value="Transporte">Transporte</option>
+      <option value="Lazer">Lazer</option>
+      <option value="Saúde">Saúde</option>
+      <option value="Educação">Educação</option>
+    </select>
     <button type="submit">Adicionar Despesa</button>
-     <div id="mensagem-despesa"></div><!-- Div para mensagens de despesa -->
+    <div id="mensagem-despesa"></div><!-- Div para mensagens de despesa -->
   </form>
 
   <hr />
   <h2>Transações</h2>
   <div id="lista-transacoes"></div>
-
-  <h1>Carregar Extrato Nubank</h1>
-  <input type="file" id="csvFile" accept=".csv">
-  <button onclick="uploadFile()">Enviar</button>
-  <div id="message"></div>
 
   <script>
     const formReceita = document.getElementById("form-receita");
@@ -150,38 +151,6 @@
     // Carregar ao abrir a página
     carregaSaldo();
     carregarTransacoes();
-
-    async function uploadFile() {
-      const fileInput = document.getElementById('csvFile');
-      const file = fileInput.files[0];
-      const messageDiv = document.getElementById('message');
-
-      if (!file) {
-        messageDiv.innerText = 'Por favor, selecione um arquivo CSV.';
-        return;
-      }
-
-      const formData = new FormData();
-      formData.append('file', file);
-
-      try {
-        const response = await fetch('http://127.0.0.1:8000/adiciona_csv', { // Ajuste a URL se necessário
-          method: 'POST',
-          body: formData,
-        });
-
-        const data = await response.json();
-
-        if (response.ok) {
-          messageDiv.innerText = `Arquivo "${data.filename}" processado com sucesso!`;
-          carregarTransacoes(); //Recarrega as transações após o upload
-        } else {
-          messageDiv.innerText = `Erro: ${data.detail || data.error}`;
-        }
-      } catch (error) {
-        messageDiv.innerText = `Erro ao enviar o arquivo: ${error}`;
-      }
-    }
 
   </script>
 </body>

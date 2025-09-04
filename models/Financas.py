@@ -1,10 +1,9 @@
 import sqlite3
-import pandas as pd
 from datetime import datetime
 
 class Financas:
     def __init__(self):
-        self.conn = sqlite3.connect("data/financas.db", check_same_thread=False)
+        self.conn = sqlite3.connect("database/financas.db", check_same_thread=False)
         self.cursor = self.conn.cursor()
         self.criar_tabela()
 
@@ -48,33 +47,8 @@ class Financas:
             })
         return transacoes
 
-    #despesas esta com sinal negativo então somente somar ela já ajusta o valor
+    
     def Saldo(self):
-        self.cursor.execute("SELECT SUM(valor) FROM transacao")
-        total = self.cursor.fetchone()[0] or 0
-        return total
-    
-    
-
-    def determinar_tipo_transacao(self, valor):
-        valor_num = float(valor)
-        return "r" if valor_num > 0 else "d"
-
-    def processar_extrato_nubank(self, caminho_csv):
-        df = pd.read_csv(caminho_csv, sep=';')
-        for _, row in df.iterrows():
-            descricao = str(row['Descrição'])
-            valor_str = str(row.get('Valor', '0')).replace('.', '').replace(',', '.')
-            try:
-                valor = float(valor_str)
-            except ValueError:
-                valor = 0.0
-            categoria = str(row['Categoria'])
-            tipo = self.determinar_tipo_transacao(valor)
-            data = row.get('data', datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
-
-            self.cursor.execute(
-                "INSERT INTO transacao (descricao, valor, categoria, tipo, data) VALUES (?, ?, ?, ?, ?)",
-                (descricao, valor, categoria, tipo, data)
-            )
-        self.conn.commit()
+        self.cursor.execute("SELECT SUM(CASE WHEN tipo='r' THEN valor ELSE 0 END) - SUM(CASE WHEN tipo='d' THEN valor ELSE 0 END) FROM transacao")
+        saldo = self.cursor.fetchone()[0]
+        return saldo
