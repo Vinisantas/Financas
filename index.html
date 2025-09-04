@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <title>Mooby - Controle Financeiro</title>
 </head>
+
 <body>
   <h3>Saldo</h3>
   <div id="exibe-saldo"></div>
@@ -12,16 +14,24 @@
   <form id="form-receita">
     <input name="valor" type="number" step="0.01" placeholder="Valor" required />
     <input name="descricao" placeholder="Descrição" required />
-    <input name="categoria" placeholder="Categoria" required />
+    <select name="Categoria">
+      <option value="" disabled selected>Selecione uma categoria</option>
+      <option value="Alimentação">Alimentação</option>
+      <option value="Transporte">Transporte</option>
+      <option value="Lazer">Lazer</option>
+      <option value="Saúde">Saúde</option>
+      <option value="Educação">Educação</option>
+    </select>
     <button type="submit">Adicionar Receita</button>
     <div id="mensagem-receita"></div> <!-- Div para mensagens de receita -->
   </form>
 
-    <h1>Adicionar Despesa</h1>
+  <h1>Adicionar Despesa</h1>
   <form id="form-despesa">
     <input name="valor" type="number" step="0.01" placeholder="Valor" required />
     <input name="descricao" placeholder="Descrição" required />
     <select name="Categoria">
+      <option value="" disabled selected>Selecione uma categoria</option>
       <option value="Alimentação">Alimentação</option>
       <option value="Transporte">Transporte</option>
       <option value="Lazer">Lazer</option>
@@ -154,4 +164,5 @@
 
   </script>
 </body>
+
 </html>
