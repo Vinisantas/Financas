@@ -5,7 +5,9 @@ FROM python:3.12
 WORKDIR /app
 
 # Copiar os arquivos
-COPY . .
+COPY ./main.py ./main.py
+COPY ./requirements.txt ./requirements.txt
+COPY ./ ./
 
 # Instalar dependências
 RUN pip install --upgrade pip
