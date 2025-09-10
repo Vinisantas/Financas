@@ -108,5 +108,6 @@ POST	/receita	Adiciona uma nova receita
 POST	/despesa	Adiciona uma nova despesa
 Por que este projeto?
 
-Esse app é um exercício prático de lógica, organização e padrões de código limpo em Python, com o objetivo de evoluir de uma ferramenta de terminal para um sistema web completo.
+Esse app é um exercício prático de lógica, organização e padrões de código limpo em Python,
+com o objetivo de evoluir de uma ferramenta de terminal para um sistema web completo.
 
