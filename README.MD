@@ -96,11 +96,11 @@ POST	/despesa	Adiciona uma nova despesa
 🧠 Por que esse projeto?
 Este app nasceu como prática de lógica de programação e boas práticas em Python, com o objetivo de evoluir para um sistema completo de finanças pessoais, do terminal à web, com foco em aprendizado real.
 
-🧑‍💻 Desenvolvedor
+👨‍💻 Desenvolvedor
 VINIXX - Apaixonado por tecnologia, código limpo e Deus 🙏
 Estudante de programação focado em desenvolvimento web, automação e IA.
 
-📢 Contribuições
+💡 Contribuições
 Este projeto é pessoal, mas ideias são bem-vindas!
 Sugestões e melhorias podem ser abertas como issues ou pull requests.
 
