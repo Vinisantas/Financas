@@ -32,32 +32,33 @@ Python 3.12+
 Git
 
 Instalação e execução
-bash
+```bash
 # Clone o repositório
 git clone https://github.com/Vinisantas/finances-back-end.git
 cd finances-back-end
-
+```bash
 # Crie e ative um ambiente virtual
 python -m venv .venv
 source .venv/bin/activate  # Linux/Mac
 # ou
 .\.venv\Scripts\activate.ps1  # Windows PowerShell
-
+```bash
 # Instale as dependências
 pip install -r requirements.txt
-
+```bash
 # Execute a aplicação
 python -m uvicorn main:app --reload
-
+```bash
 # Acesse a interface web
 # http://localhost:8000
 Executando testes
-bash
+```bash
 # Instale as dependências de teste
 pip install pytest
-
+```bash
 # Execute os testes
 pytest --cov=models
+```bash
 📂 Estrutura do Projeto
 text
 finances-back-end/
