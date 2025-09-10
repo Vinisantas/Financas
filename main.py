@@ -7,7 +7,9 @@ from fastapi.middleware.cors import CORSMiddleware
 import logging
 
 # Configuração de logs
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logging.basicConfig(
+    level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
+)
 
 # Inicializa
 f = Financas()
@@ -23,29 +25,37 @@ app.add_middleware(
 )
 
 
-
 # --- Rotas ---
 @app.get("/saldo")
 async def saldo():
     return {"saldo": f.Saldo()}
 
+
 @app.post("/receita")
 async def adicionar_receita(receita: Receita):
     f.adicionar_receita(receita.descricao, receita.valor, receita.categoria)
-    return {"mensagem": "Receita adicionada com sucesso!", "transacoes": f.listar_todas()}
+    return {
+        "mensagem": "Receita adicionada com sucesso!",
+        "transacoes": f.listar_todas(),
+    }
+
 
 @app.post("/despesa")
 async def adicionar_despesa(despesa: Despesa):
     f.adicionar_despesa(despesa.descricao, despesa.valor, despesa.categoria)
-    return {"mensagem": "Despesa adicionada com sucesso!", "transacoes": f.listar_todas()}
+    return {
+        "mensagem": "Despesa adicionada com sucesso!",
+        "transacoes": f.listar_todas(),
+    }
+
 
 @app.get("/transacoes")
 async def get_transacoes():
     return {"transacoes": f.listar_todas()}
 
 
-
 # Rota para relatórios
+
 
 @app.get("/relatorios/categoria")
 async def relatorio_por_categoria(
