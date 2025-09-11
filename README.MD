@@ -1,90 +1,113 @@
-# 💰 MOOBY - App de Controle Financeiro Pessoal
+# MOOBY – App de Controle Financeiro Pessoal
 
-**MOOBY** é um projeto pessoal feito em Python com foco no gerenciamento de finanças.
-Com ele, você pode acompanhar seus **ganhos**, **despesas** e o **saldo atualizado**, de forma simples, organizada e extensível.
+[![Status – Em Desenvolvimento](https://img.shields.io/badge/Status-Em%20Desenvolvimento-brightgreen)](https://github.com/Vinisantas/finances-back-end)  
+[![Python 3.12+](https://img.shields.io/badge/Python-3.12%2B-blue)]  
+[![FastAPI 0.104.1](https://img.shields.io/badge/FastAPI-0.104.1-green)]  
+[![SQLite Database](https://img.shields.io/badge/SQLite-Database-lightgrey)]  
 
-![Coverage](https://codecov.io/gh/Vinisantas/appFinances/branch/main/graph/badge.svg)
-
----
-
-## 🚀 Funcionalidades Atuais
-
-- ✅ Registro de ganhos
-- ✅ Registro de despesas
-- ✅ Cálculo automático de saldo
-- ✅ Estrutura orientada a objetos
-- ✅ Menu interativo no terminal
-- ✅ Testes automatizados com `pytest`
-- ✅ Validação de código com `flake8` + `black` via `pre-commit`
-- ✅ Estrutura modular com `models`, `views` e `test`
+Uma aplicação pessoal desenvolvida com Python e FastAPI para gerenciar suas finanças de forma simples, eficiente e responsiva.
 
 ---
 
-## 🎯 Objetivos Futuros
+##  Funcionalidades Atuais
 
-- 🔜 Registro completo de transações (categoria, descrição, data)
-- 🔜 Histórico com filtros
-- 🔜 Relatórios por período/categoria (`Relatorio.py`)
-- 🔜 Integração com banco de dados (SQLite / MySQL)
-- 🔜 Containerização com Docker
-- 🔜 CI/CD com GitHub Actions
-- 🔜 Interface Web/Mobile (Flask ou FastAPI + React)
-- 🔜 IA para análises e previsões financeiras
+- ✅ Registro de ganhos e despesas com interface web moderna  
+- ✅ Cálculo de saldo em tempo real  
+- ✅ Organização de transações por categoria  
+- ✅ Histórico completo com datas  
+- ✅ Backend em FastAPI com API RESTful documentada  
+- ✅ Banco de dados persistente via SQLite  
+- ✅ Frontend responsivo usando HTML5, CSS3 e JavaScript Vanilla  
+- ✅ Validação e formatação de código com Flake8 + Black e pre-commit
 
 ---
 
-## 🧪 Como executar os testes
+##  Objetivos Futuros
+
+- Relatórios detalhados por período ou categoria  
+- Filtros avançados: data, categoria, tipo de transação  
+- Dashboard com gráficos interativos  
+- Sistema de metas financeiras  
+- Exportação de dados em CSV, PDF ou Excel  
+- Autenticação segura (login de usuários via JWT)  
+- Aplicativo móvel (PWA ou React Native)
+
+---
+
+##  Como Executar
+
+### Pré-requisitos
+
+- Python 3.12+  
+- Git
+
+### Passos
 
 ```bash
-# Instale as dependências
+# Clonar o repositório
+git clone https://github.com/Vinisantas/finances-back-end.git
+cd finances-back-end
+
+# Criar e ativar um ambiente virtual
+python -m venv .venv
+source .venv/bin/activate     # Linux/Mac
+# ou
+.\.venv\Scripts\activate.ps1  # Windows PowerShell
+
+# Instalar dependências
 pip install -r requirements.txt
 
-# Rode os testes com cobertura
+# Executar a aplicação
+python -m uvicorn main:app --reload
+
+# Acesse no navegador:
+http://localhost:8000
+
+Executar Testes
+# Instalar Pytest (caso ainda não tenha)
+pip install pytest
+
+# Rodar testes com cobertura
 pytest --cov=models
 
-
-📂 Estrutura do Projeto
-
-controle-financeiro/
+Estrutura do Projeto
+finances-back-end/
 ├── models/
-│   ├── Financas.py        # Lógica de receitas, despesas, saldo e transações
-│   ├── Relatorio.py       # (em desenvolvimento)
+│   ├── Financas.py     # Lógica de negócio e acesso ao banco
+│   ├── Relatorio.py    # Módulo de relatórios (em desenvolvimento)
+│   ├── schemas.py      # Modelos Pydantic para validação
 │   └── __init__.py
-├── views/
-│   └── terminal.py        # Interface de terminal com menu interativo
+├── view/
+│   ├── index.html      # Interface web principal
+│   ├── style.css       # Estilos modernos e responsivos
+│   └── script.js       # Lógica front-end e chamadas à API
+├── database/
+│   └── financas.db     # Banco de dados SQLite
 ├── test/
-│   └── test_financas.py   # Testes unitários com pytest
-├── data/
-│   └── transacoes.json    # Armazenamento temporário das transações
+│   └── test_financas.py # Testes unitários
+├── main.py              # Versão principal do FastAPI app
+├── requirements.txt     # Dependências do projeto
 ├── .pre-commit-config.yaml
-├── requirements.txt
-├── README.md
-└── .gitignore
+└── README.md
 
+Tecnologias Utilizadas
 
-🛠️ Tecnologias Utilizadas
-Python 3.13
+Backend: Python • FastAPI • SQLite • Pydantic
 
-Pytest + Coverage
+Frontend: HTML5 • CSS3 • JavaScript (Vanilla)
 
-Flake8 + Black + Pre-commit
+Ferramentas: Git • GitHub • Pytest • Flake8 • Black • pre-commit
 
-Git + GitHub
+Planejado para o futuro: Docker • React • JWT Auth • Chart.js
 
-Futuro: Docker • SQLite/MySQL • FastAPI • GitHub Actions • IA com Python
+Endpoints da API
+Método	Rota	Descrição
+GET	/saldo	Retorna o saldo atual
+GET	/transacoes	Lista todas as transações
+POST	/receita	Adiciona uma nova receita
+POST	/despesa	Adiciona uma nova despesa
+Por que este projeto?
 
-🧠 Por que esse projeto?
-Este app nasceu como prática de lógica de programação e boas práticas em Python, com o objetivo de evoluir para um sistema completo de finanças pessoais, do terminal à web, com foco em aprendizado real.
+Esse app é um exercício prático de lógica, organização e padrões de código limpo em Python,
+com o objetivo de evoluir de uma ferramenta de terminal para um sistema web completo.
 
-🧑‍💻 Desenvolvedor
-VINIXX
-Apaixonado por tecnologia, código limpo, academia e Deus 🙏
-Estudante de programação focado em desenvolvimento web, automação e IA.
-
-📢 Contribuições
-Este projeto é pessoal, mas ideias são bem-vindas!
-Sugestões e melhorias podem ser abertas como issues ou pull requests.
-
-📌 Status
-🟢 Em desenvolvimento contínuo
-```
