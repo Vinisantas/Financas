@@ -36,3 +36,11 @@ async def get_transacoes():
     return {"transacoes": f.listar_todas()}
 
 
+
+@router.delete("/deleta/{id}")
+async def deleta_transacao(id: int):
+    f.deleta_transacao(id)
+    return{
+        "mensagem": "Transação deletada com sucesso!",
+        "transacoes": f.listar_todas(),
+    }
