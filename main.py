@@ -1,21 +1,19 @@
-from models.Financas import Financas
-from fastapi import FastAPI, UploadFile, File, HTTPException
-from fastapi import Query
-from models.schemas import Receita, Despesa
-from models.Relatorio import Relatorios
+# main.py
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import logging
+
+# Importa o objeto router do seu arquivo de rotas
+from controllers.routes import router
 
 # Configuração de logs
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
-# Inicializa
-f = Financas()
 app = FastAPI()
 
-# Permite qualquer origem (para testes)
+# Adiciona o middleware CORS à aplicação principal
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -24,68 +22,5 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
-# --- Rotas ---
-@app.get("/saldo")
-async def saldo():
-    return {"saldo": f.Saldo()}
-
-
-@app.post("/receita")
-async def adicionar_receita(receita: Receita):
-    f.adicionar_receita(receita.descricao, receita.valor, receita.categoria)
-    return {
-        "mensagem": "Receita adicionada com sucesso!",
-        "transacoes": f.listar_todas(),
-    }
-
-
-@app.post("/despesa")
-async def adicionar_despesa(despesa: Despesa):
-    f.adicionar_despesa(despesa.descricao, despesa.valor, despesa.categoria)
-    return {
-        "mensagem": "Despesa adicionada com sucesso!",
-        "transacoes": f.listar_todas(),
-    }
-
-
-@app.get("/transacoes")
-async def get_transacoes():
-    return {"transacoes": f.listar_todas()}
-
-
-# Rota para relatórios
-
-
-@app.get("/relatorios/categoria")
-async def relatorio_por_categoria(
-    categoria: str = Query(..., description="Categoria para filtrar")
-):
-    relatorios = Relatorios(transacao=f.transacao)
-    relatorio = relatorios.filtrar_por_categoria_api(categoria)
-    return {"relatorio": relatorio}
-
-
-@app.get("/relatorios/mes")
-async def relatorio_por_mes(
-    mes: str = Query(..., description="Mês para filtrar (1-12)")
-):
-    relatorios = Relatorios(transacao=f.transacao)
-    relatorio = relatorios.filtrar_por_mes_api(mes)
-    return {"relatorio": relatorio}
-
-
-@app.get("/relatorios/tipo")
-async def relatorio_por_tipo(tipo: str = Query(..., description="(r ou d)")):
-    relatorios = Relatorios(transacao=f.transacao)
-    relatorio = relatorios.filtrar_por_tipo_api(tipo)
-    return {"relatorio": relatorio}
-
-
-@app.get("/relatorios/soma")
-async def relatorio_soma_por_tipo(
-    tipo: str = Query(..., description="Tipo para somar (receita ou despesa)")
-):
-    relatorios = Relatorios(transacao=f.transacao)
-    relatorio = relatorios.soma_por_tipo_api(tipo)
-    return {"relatorio": relatorio}
+# Inclui todas as rotas definidas no router na sua aplicação
+app.include_router(router)
