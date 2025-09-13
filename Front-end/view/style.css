@@ -202,7 +202,7 @@
     .transacao .info-container {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 10px;
       flex: 1;
     }
 
@@ -237,6 +237,10 @@
     .transacao.despesa .valor {
       color: var(--danger-color);
       background-color: #fef2f2;
+    }
+
+    .transacao .info-container button {
+      width: 80px;
     }
 
     .empty-state {

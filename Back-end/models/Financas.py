@@ -51,15 +51,21 @@ class Financas:
 
     def listar_todas(self):
         self.cursor.execute(
-            "SELECT  valor, categoria, tipo, data FROM transacao ORDER BY datetime(data) DESC"
+            "SELECT id, valor, descricao, categoria, tipo, data FROM transacao ORDER BY datetime(data) DESC"
         )
         rows = self.cursor.fetchall()
         transacoes = []
         for row in rows:
-            transacoes.append(
-                {"valor": row[0], "categoria": row[1], "tipo": row[2], "data": row[3]}
-            )
+            transacoes.append({
+                "id": row[0],
+                "valor": row[1],
+                "descricao": row[2],
+                "categoria": row[3],
+                "tipo": row[4],
+                "data": row[5]
+            })
         return transacoes
+
 
     def Saldo(self):
         self.cursor.execute(
@@ -71,6 +77,6 @@ class Financas:
     def deleta_transacao(self, id):
         id_transacao = id
         self.cursor.execute(
-            "DELETE FROM transacao" \
-            "WHERE id = ? "(id_transacao,))
+            "DELETE FROM transacao WHERE id = ?", (id_transacao,)
+        )
         self.conn.commit()

@@ -17,7 +17,7 @@
       const payload = {
         valor: parseFloat(formData.get("valor")),
         categoria: formData.get("categoria"),
-        descricao: formData.get("descricao")
+        descricao: formData.get("descricao"),
       };
 
       try {
@@ -51,6 +51,21 @@
       }, 3000);
     }
 
+  async function excluir(id) {
+    try {
+      const res = await fetch(`http://localhost:8000/deleta/${id}`, {
+        method: 'DELETE'
+      });
+    if (!res.ok) {
+      throw new Error(`Erro ao excluir transação: ${res.status}`);
+    }
+
+    await carregarTransacoes(); // recarrega a lista
+  } catch (err) {
+    console.error(err);
+  }
+}
+
     async function carregarTransacoes() {
       try {
         const res = await fetch("http://localhost:8000/transacoes");
@@ -82,6 +97,7 @@
               <span class="categoria">${t.categoria}</span>
               <span class="descricao">${t.descricao || 'Sem descrição'}</span>
               <span class="data">${dataFormatada}</span>
+              <button onclick="excluir(${t.id})">excluir</button>
             </div>
             <span class="valor">R$ ${parseFloat(t.valor).toFixed(2)}</span>
           `;
@@ -128,7 +144,7 @@
         document.getElementById("exibe-saldo").textContent = "Erro";
       }
     }
-
+    
     // Carregar ao abrir a página
     document.addEventListener('DOMContentLoaded', () => {
       carregaSaldo();
