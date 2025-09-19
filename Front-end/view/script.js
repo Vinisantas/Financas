@@ -146,7 +146,10 @@
     }
     
     // Carregar ao abrir a página
-    document.addEventListener('DOMContentLoaded', () => {
-      carregaSaldo();
+// --- INICIALIZAÇÃO ---
+  document.addEventListener('DOMContentLoaded', () => {
+    carregaSaldo();
+    if (document.getElementById("lista-transacoes")) {
       carregarTransacoes();
-    });
+    }
+  });

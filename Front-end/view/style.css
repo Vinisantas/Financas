@@ -16,42 +16,36 @@
       box-sizing: border-box;
     }
 
-    /* Sidebar */
-    .sidebar {
+
+    .menu {
       display: flex;
+      align-items: center;
+      justify-content:space-around ;
       background-color: #f8fafc;
       color: var(--text-color);
       padding: 20px;
-      display: flex;
-      flex-direction: column;
     }
 
-    .sidebar h2 {
-      margin-bottom: 20px;
-      font-size: 22px;
-      border-bottom: 1px solid #334155;
-      padding-bottom: 10px;
-    }
-
-    .sidebar ul {
+    .menu ul {
       list-style: none;
     }
 
-    .sidebar ul li {
+    .menu ul li {
+      display: inline;
       margin: 15px 0;
+      padding: 30px;
     }
 
-    .sidebar ul li a {
+    .menu ul li a {
       color: var(--text-color);
       text-decoration: none;
       font-size: 16px;
-      display: block;
       padding: 10px;
       border-radius: 8px;
       transition: background 0.3s;
     }
 
-    .sidebar ul li a:hover {
+    .menu ul li a:hover {
       background: var(--primary-color);
       color: #fff;
     }
@@ -76,6 +70,9 @@
     }
 
     header h3 {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 14px;
       font-weight: 500;
       margin-bottom: 8px;
@@ -83,6 +80,9 @@
     }
 
     #exibe-saldo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-size: 32px;
       font-weight: 700;
     }
