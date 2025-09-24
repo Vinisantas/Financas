@@ -144,6 +144,27 @@
         document.getElementById("exibe-saldo").textContent = "Erro";
       }
     }
+
+
+
+
+    document.addEventListener('DOMContentLoaded', () => {
+  const buttons = document.querySelectorAll('nav [data-section]');
+  const sections = document.querySelectorAll('main section');
+
+  function showSection(id) {
+    sections.forEach(sec => sec.classList.remove('active'));
+    const target = document.getElementById(id);
+    if (target) target.classList.add('active');
+  }
+
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const sectionId = btn.getAttribute('data-section');
+      showSection(sectionId);
+    });
+  });
+});
     
     // Carregar ao abrir a página
 // --- INICIALIZAÇÃO ---

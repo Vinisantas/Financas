@@ -1,10 +1,10 @@
-# main.py
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import logging
 
-# Importa o objeto router do seu arquivo de rotas
-from controllers.routes import router
+# Importa os objetos router dos seus arquivos de rotas
+from controllers.routes import router as transacoes_router
+from controllers.routesRelatories import router as relatorios_router
 
 # Configuração de logs
 logging.basicConfig(
@@ -22,5 +22,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Inclui todas as rotas definidas no router na sua aplicação
-app.include_router(router)
+# Inclui todas as rotas definidas nos routers na sua aplicação
+app.include_router(transacoes_router)
+app.include_router(relatorios_router, prefix="/relatorios")
+
+@app.get("/")
+def read_root():
+    return {"message": "API Financeira funcionando!"}

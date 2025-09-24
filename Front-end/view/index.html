@@ -8,59 +8,80 @@
 </head>
 
 <body>
+  <nav>
+    <button data-section="home" class="active">🏠</button>
+    <button data-section="financas">💰</button>
+    <button data-section="relatorios">📊</button>
+  </nav>
+
+  <main>
+    <section id="home" class="active">
+    
+    <h2>Bem-vindo</h2>   
   <header>
     <h3>Saldo Atual</h3>
     <div id="exibe-saldo"></div>
   </header>
+    </section>
 
-    <nav>
-      <div class="menu">
-      <ul>
-        <li><a href="index2.html">🏠 Início</a></li>
-        <li><a href="dashboards.html">📊 Dashboard</a></li>
-        <li><a href="inputs.html">💰 Finanças</a></li>
-      </ul>
+
+    <section id="financas">
+    
+    <h2>Transações</h2>
+      <div class="form-container">
+      <div>
+        <h1>Adicionar Receita</h1>
+        <form id="form-receita">
+          <input name="valor" type="number" step="0.01" placeholder="Valor" required />
+          <input name="descricao" placeholder="Descrição" required />
+          <select name="categoria">
+            <option value="" disabled selected>Selecione uma categoria</option>
+            <option value="Salário">Salário</option>
+            <option value="Motoboy">Motoboy</option>
+          </select>
+          <button type="submit">Adicionar Receita</button>
+          <div id="mensagem-receita"></div>
+        </form>
       </div>
-    </nav>
-  <div class="form-container">
-    <div>
-      <h1>Adicionar Receita</h1>
-      <form id="form-receita">
-        <input name="valor" type="number" step="0.01" placeholder="Valor" required />
-        <input name="descricao" placeholder="Descrição" required />
-        <select name="categoria">
-          <option value="" disabled selected>Selecione uma categoria</option>
-          <option value="Salário">Salário</option>
-          <option value="Motoboy">Motoboy</option>
-        </select>
-        <button type="submit">Adicionar Receita</button>
-        <div id="mensagem-receita"></div>
-      </form>
-    </div>
 
-    <div>
-      <h1>Adicionar Despesa</h1>
-      <form id="form-despesa">
-        <input name="valor" type="number" step="0.01" placeholder="Valor" required />
-        <input name="descricao" placeholder="Descrição" required />
-        <select name="categoria">
-          <option value="" disabled selected>Selecione uma categoria</option>
-          <option value="Alimentação">Alimentação</option>
-          <option value="Transporte">Transporte</option>
-          <option value="Lazer">Lazer</option>
-          <option value="Saúde">Saúde</option>
-          <option value="Educação">Educação</option>
-          <option value="Loja">Loja</option>
-        </select>
-        <button type="submit">Adicionar Despesa</button>
-        <div id="mensagem-despesa"></div>
-      </form>
+      <div>
+        <h1>Adicionar Despesa</h1>
+        <form id="form-despesa">
+          <input name="valor" type="number" step="0.01" placeholder="Valor" required />
+          <input name="descricao" placeholder="Descrição" required />
+          <select name="categoria">
+            <option value="" disabled selected>Selecione uma categoria</option>
+            <option value="Alimentação">Alimentação</option>
+            <option value="Transporte">Transporte</option>
+            <option value="Lazer">Lazer</option>
+            <option value="Saúde">Saúde</option>
+            <option value="Educação">Educação</option>
+            <option value="Loja">Loja</option>
+          </select>
+          <button type="submit">Adicionar Despesa</button>
+          <div id="mensagem-despesa"></div>
+        </form>
+      </div>
     </div>
-  </div>
+    <hr />
 
-  <hr />
-  <h2>Transações</h2>
-  <div id="lista-transacoes" class="transacoes-lista"></div>
+    <div id="lista-transacoes" class="transacoes-lista"></div>
+    </section>
+
+
+  <section id="relatorios">
+    <h2>Relatórios</h2>
+    
+    <p>Total de Entradas: <span id="total-entradas">0</span></p>
+    <p>Total de Saídas: <span id="total-saidas">0</span></p>
+    <p>Saldo Final: <span id="saldo-final">0</span></p>
+
+    <h3>Gráfico de Gastos por Categoria</h3>
+    <canvas id="grafico"></canvas>
+  </section>
+  </main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="script.js"></script>
 </body>
 
