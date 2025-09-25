@@ -146,24 +146,10 @@ async function carregaSaldo() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const buttons = document.querySelectorAll('nav [data-section]');
-  const sections = document.querySelectorAll('main section');
-
-  function showSection(id) {
-    sections.forEach(sec => sec.classList.remove('active'));
-    const target = document.getElementById(id);
-    if (target) target.classList.add('active');
-  }
-
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      const sectionId = btn.getAttribute('data-section');
-      showSection(sectionId);
-    });
-  });
-
-  // Carregar saldo e transações ao abrir a página
+  // Carrega o saldo em todas as páginas que incluem este script
   carregaSaldo();
+  
+  // Carrega a lista de transações recentes apenas se o elemento existir na página (inputs.html)
   if (document.getElementById("lista-transacoes")) {
     carregarTransacoes();
   }

@@ -79,7 +79,7 @@ nav a:hover {
 
 /* Conteúdo principal */
 main {
-  max-width: 1200px;
+  max-inline-size: 1200px;
   margin: 2rem auto;
   padding: 0 1rem;
 }
@@ -93,7 +93,7 @@ main {
 .welcome h2 {
   font-size: 2rem;
   color: var(--accent-green);
-  margin-bottom: 1rem;
+  margin-block-end: 1rem;
 }
 
 .welcome p {
@@ -105,7 +105,7 @@ main {
   display: flex;
   justify-content: center;
   gap: 2rem;
-  margin-top: 2rem;
+  margin-block-start: 2rem;
   flex-wrap: wrap;
 }
 
@@ -114,7 +114,7 @@ main {
   padding: 1.5rem;
   border-radius: 12px;
   box-shadow: var(--shadow);
-  min-width: 160px;
+  min-inline-size: 160px;
   transition: transform 0.2s ease, background 0.3s;
 }
 
@@ -126,7 +126,7 @@ main {
 .card h3 {
   color: var(--muted-text);
   font-size: 0.9rem;
-  margin-bottom: 0.5rem;
+  margin-block-end: 0.5rem;
 }
 
 .card div {
@@ -140,7 +140,7 @@ main {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 2rem;
-  margin-bottom: 2rem;
+  margin-block-end: 2rem;
 }
 
 .form-container {
@@ -151,7 +151,7 @@ main {
 }
 
 .form-container h2 {
-  margin-bottom: 1rem;
+  margin-block-end: 1rem;
   color: var(--accent-green);
 }
 
@@ -205,19 +205,19 @@ button:hover {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  border-bottom: 1px solid #2a2a2a;
+  border-block-end: 1px solid #2a2a2a;
 }
 
 .transacao:last-child {
-  border-bottom: none;
+  border-block-end: none;
 }
 
 .transacao.receita {
-  border-left: 4px solid var(--accent-green);
+  border-inline-start: 4px solid var(--accent-green);
 }
 
 .transacao.despesa {
-  border-left: 4px solid var(--accent-red);
+  border-inline-start: 4px solid var(--accent-red);
 }
 
 /* ===================== */
@@ -229,7 +229,7 @@ button:hover {
   background: var(--card-color);
   padding: 1rem;
   border-radius: 8px;
-  margin-bottom: 2rem;
+  margin-block-end: 2rem;
   display: flex;
   gap: 1rem;
   align-items: center;
@@ -265,7 +265,7 @@ button:hover {
   background: var(--card-color);
   padding: 1.5rem;
   border-radius: 12px;
-  margin-bottom: 2rem;
+  margin-block-end: 2rem;
   box-shadow: var(--shadow);
 }
 
@@ -277,7 +277,7 @@ button:hover {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 1rem;
-  margin-top: 1rem;
+  margin-block-start: 1rem;
 }
 
 .card-mes {
@@ -298,17 +298,17 @@ button:hover {
 }
 
 .card-mes.receita {
-  border-left: 4px solid var(--accent-green);
+  border-inline-start: 4px solid var(--accent-green);
 }
 
 .card-mes.despesa {
-  border-left: 4px solid var(--accent-red);
+  border-inline-start: 4px solid var(--accent-red);
 }
 
 .valor-grande {
   font-size: 2rem;
   font-weight: bold;
-  margin-top: 0.5rem;
+  margin-block-start: 0.5rem;
   color: var(--text-color);
 }
 
@@ -317,17 +317,17 @@ button:hover {
   background: var(--card-color);
   padding: 1.5rem;
   border-radius: 12px;
-  margin-bottom: 2rem;
+  margin-block-end: 2rem;
   box-shadow: var(--shadow);
 }
 
 .grafico-container h3 {
   color: var(--accent-blue);
-  margin-bottom: 1rem;
+  margin-block-end: 1rem;
 }
 
 .grafico-lista {
-  margin-top: 1rem;
+  margin-block-start: 1rem;
 }
 
 .item-categoria {
@@ -335,10 +335,10 @@ button:hover {
   justify-content: space-between;
   align-items: center;
   padding: 0.8rem;
-  margin-bottom: 0.5rem;
+  margin-block-end: 0.5rem;
   background: #1a1a1a;
   border-radius: 6px;
-  border-left: 4px solid var(--accent-blue);
+  border-inline-start: 4px solid var(--accent-blue);
   transition: transform 0.2s ease;
 }
 
@@ -347,11 +347,11 @@ button:hover {
 }
 
 .item-categoria.receita {
-  border-left-color: var(--accent-green);
+  border-inline-start-color: var(--accent-green);
 }
 
 .item-categoria.despesa {
-  border-left-color: var(--accent-red);
+  border-inline-start-color: var(--accent-red);
 }
 
 .info-categoria {
@@ -363,7 +363,7 @@ button:hover {
 
 .nome-categoria {
   font-weight: bold;
-  min-width: 120px;
+  min-inline-size: 120px;
   color: var(--text-color);
 }
 
@@ -371,12 +371,12 @@ button:hover {
   flex-grow: 1;
   background: #2a2a2a;
   border-radius: 6px;
-  height: 20px;
+  block-size: 20px;
   overflow: hidden;
 }
 
 .barra-progresso {
-  height: 100%;
+  block-size: 100%;
   transition: width 0.3s ease;
 }
 
@@ -390,25 +390,25 @@ button:hover {
 
 .valor-categoria {
   font-weight: bold;
-  min-width: 80px;
-  text-align: right;
+  min-inline-size: 80px;
+  text-align: end;
   color: var(--text-color);
 }
 
 /* Gráfico de Barras (Evolução Mensal) */
 .grafico-barras {
-  margin-top: 1rem;
+  margin-block-start: 1rem;
 }
 
 .barra-mensal {
   display: flex;
   align-items: center;
-  margin-bottom: 1rem;
+  margin-block-end: 1rem;
   gap: 1rem;
 }
 
 .mes-label {
-  min-width: 80px;
+  min-inline-size: 80px;
   font-weight: bold;
   color: var(--accent-yellow);
 }
@@ -417,22 +417,22 @@ button:hover {
   flex-grow: 1;
   background: #2a2a2a;
   border-radius: 6px;
-  height: 30px;
+  block-size: 30px;
   position: relative;
   overflow: hidden;
 }
 
 .barra-receitas {
   position: absolute;
-  left: 0;
-  height: 100%;
+  inset-inline-start: 0;
+  block-size: 100%;
   background: var(--accent-green);
   border-radius: 6px 0 0 6px;
 }
 
 .barra-despesas {
   position: absolute;
-  height: 100%;
+  block-size: 100%;
   background: var(--accent-red);
   border-radius: 0 6px 6px 0;
 }
@@ -440,7 +440,7 @@ button:hover {
 .valores-mes {
   display: flex;
   gap: 1rem;
-  min-width: 200px;
+  min-inline-size: 200px;
   color: var(--text-color);
 }
 

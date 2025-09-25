@@ -86,7 +86,13 @@
       <div id="lista-transacoes-mes" class="transacoes-lista"></div>
     </div>
   </main>
+  <!-- script.js é necessário para carregar o saldo no cabeçalho -->
+  <script src="script.js"></script> 
   <script src="relatorios.js"></script>
+  <script>
+    // Garante que tanto o saldo quanto os relatórios sejam carregados ao abrir a página
+    document.addEventListener('DOMContentLoaded', carregarRelatorios);
+  </script>
 </body>
 
 </html>
