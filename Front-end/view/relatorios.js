@@ -163,13 +163,13 @@ async function carregarTransacoesDoMes(params) {
 
     transacoes.forEach(t => {
       const tipo = t.tipo === 'r' ? 'receita' : 'despesa';
-      const dataFormatada = formatarData(t.data); // Reutiliza a função de script.js
+      const { data, hora } = formatarData(t.data); // Usa a função aprimorada de script.js
       const itemHTML = `
         <div class="transacao ${tipo}">
           <div class="info-container">
             <span class="categoria">${t.categoria || 'Sem Categoria'}</span>
             <span class="descricao">${t.descricao}</span>
-            <span class="data">${dataFormatada}</span>
+            <span class="data">${data} às ${hora}</span>
           </div>
           <span class="valor">${formatarMoeda(t.valor)}</span>
         </div>

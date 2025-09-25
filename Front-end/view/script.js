@@ -122,11 +122,7 @@ async function carregarTransacoes(elementId) {
         <div class="info-container">
           <strong class="categoria">${t.categoria}</strong>
           <span class="descricao">${t.descricao || "Sem descrição"}</span>
-<<<<<<< HEAD
           <small class="data">${data} às ${hora}</small>
-=======
-          <small class="data">${dataFormatada}</small>
->>>>>>> 732c24b0bf648ffdcc0ac4c55c3e98d469a9aba0
         </div>
         <span class="valor">R$ ${parseFloat(t.valor).toFixed(2)}</span>
       `;
@@ -191,7 +187,8 @@ async function carregarResumoIndexPage() {
     const { transacoes } = await api("transacoes");
     const hoje = new Date().toISOString().split('T')[0]; // Formato YYYY-MM-DD
 
-    const transacoesHoje = transacoes.filter(t => t.data === hoje).length;
+    // Compara apenas a parte da data (YYYY-MM-DD), ignorando a hora.
+    const transacoesHoje = transacoes.filter(t => t.data.startsWith(hoje)).length;
     document.getElementById("transacoes-hoje").textContent = transacoesHoje;
   } catch (error) {
     console.error("Erro ao carregar resumo do dia:", error);
