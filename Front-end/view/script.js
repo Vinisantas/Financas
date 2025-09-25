@@ -81,8 +81,13 @@ async function excluir(id) {
  * @returns {string} A data formatada.
  */
 function formatarData(dataString) {
-  const [ano, mes, dia] = dataString.split('-');
-  return `${dia}/${mes}/${ano}`;
+  // A data vem como "YYYY-MM-DD HH:MM:SS", separamos a data da hora.
+  const [datePart, timePart] = dataString.split(' ');
+  const [ano, mes, dia] = datePart.split('-');
+  
+  // Retorna um objeto com a data e a hora (sem os segundos)
+  const hora = timePart ? timePart.substring(0, 5) : ''; // Pega apenas HH:MM
+  return { data: `${dia}/${mes}/${ano}`, hora: hora };
 }
 
 // 🔹 Carregar transações
@@ -111,13 +116,13 @@ async function carregarTransacoes(elementId) {
       const item = document.createElement("div");
       item.className = `transacao ${t.tipo === "r" ? "receita" : "despesa"}`;
 
-      const dataFormatada = formatarData(t.data);
+      const { data, hora } = formatarData(t.data);
 
       item.innerHTML = `
         <div class="info-container">
           <strong class="categoria">${t.categoria}</strong>
           <span class="descricao">${t.descricao || "Sem descrição"}</span>
-          <small class="data">${dataFormatada}</small>
+          <small class="data">${data} às ${hora}</small>
         </div>
         <span class="valor">R$ ${parseFloat(t.valor).toFixed(2)}</span>
       `;
