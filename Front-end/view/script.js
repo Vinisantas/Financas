@@ -77,7 +77,7 @@ async function excluir(id) {
 
 /**
  * Formata uma string de data 'YYYY-MM-DD' para o formato 'DD/MM/YYYY'.
- * @param {string} dataString A data no formato 'YYYY-MM-DD'.
+ * @param {string} dataString A data no formato 'YYYY-MM-DD'..
  * @returns {string} A data formatada.
  */
 function formatarData(dataString) {
