@@ -141,10 +141,19 @@ async function carregaSaldo() {
   try {
     const extrato = await api("saldo");
     const saldoElement = document.getElementById("exibe-saldo");
+    const quickSaldoElement = document.getElementById("quick-saldo"); // Para a página inicial
     const saldo = parseFloat(extrato.saldo) || 0;
 
-    saldoElement.textContent = `R$ ${saldo.toFixed(2)}`;
-    saldoElement.style.color = saldo >= 0 ? "#22c55e" : "#ef4444";
+    const saldoFormatado = `R$ ${saldo.toFixed(2).replace('.', ',')}`;
+    const corSaldo = saldo >= 0 ? "#22c55e" : "#ef4444";
+
+    if (saldoElement) {
+      saldoElement.textContent = saldoFormatado;
+      saldoElement.style.color = corSaldo;
+    }
+    if (quickSaldoElement) {
+      quickSaldoElement.textContent = saldoFormatado;
+    }
   } catch {
     document.getElementById("exibe-saldo").textContent = "Erro";
   }
@@ -158,4 +167,25 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById("lista-transacoes")) {
     carregarTransacoes("lista-transacoes");
   }
+
+  // Carrega o resumo da página inicial se os elementos existirem
+  if (document.getElementById("transacoes-hoje")) {
+    carregarResumoIndexPage();
+  }
 });
+
+/**
+ * Carrega os dados específicos da página inicial (index.html).
+ */
+async function carregarResumoIndexPage() {
+  try {
+    const { transacoes } = await api("transacoes");
+    const hoje = new Date().toISOString().split('T')[0]; // Formato YYYY-MM-DD
+
+    const transacoesHoje = transacoes.filter(t => t.data === hoje).length;
+    document.getElementById("transacoes-hoje").textContent = transacoesHoje;
+  } catch (error) {
+    console.error("Erro ao carregar resumo do dia:", error);
+    document.getElementById("transacoes-hoje").textContent = "N/A";
+  }
+}
