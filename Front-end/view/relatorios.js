@@ -146,10 +146,6 @@ async function carregarEvolucaoMensal() {
  */
 async function carregarTransacoesDoMes(params) {
   const lista = document.getElementById('lista-transacoes-mes');
-  // A função carregarTransacoes já existe em script.js, vamos reutilizá-la
-  // mas precisamos de um endpoint que filtre por mês.
-  // O endpoint /transacoes retorna tudo. Vamos criar um novo ou adaptar.
-  // Usaremos o novo endpoint: /relatorio/transacoes_mes
   
   lista.innerHTML = '<p>Carregando transações...</p>';
   try {
@@ -167,11 +163,11 @@ async function carregarTransacoesDoMes(params) {
 
     transacoes.forEach(t => {
       const tipo = t.tipo === 'r' ? 'receita' : 'despesa';
-      const dataFormatada = new Date(t.data + 'T00:00:00').toLocaleDateString('pt-BR');
+      const dataFormatada = formatarData(t.data); // Reutiliza a função de script.js
       const itemHTML = `
         <div class="transacao ${tipo}">
           <div class="info-container">
-            <span class="categoria">${t.categoria}</span>
+            <span class="categoria">${t.categoria || 'Sem Categoria'}</span>
             <span class="descricao">${t.descricao}</span>
             <span class="data">${dataFormatada}</span>
           </div>

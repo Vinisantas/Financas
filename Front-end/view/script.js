@@ -75,6 +75,16 @@ async function excluir(id) {
   }
 }
 
+/**
+ * Formata uma string de data 'YYYY-MM-DD' para o formato 'DD/MM/YYYY'.
+ * @param {string} dataString A data no formato 'YYYY-MM-DD'.
+ * @returns {string} A data formatada.
+ */
+function formatarData(dataString) {
+  const [ano, mes, dia] = dataString.split('-');
+  return `${dia}/${mes}/${ano}`;
+}
+
 // 🔹 Carregar transações
 async function carregarTransacoes(elementId) {
   const lista = document.getElementById(elementId);
@@ -114,8 +124,10 @@ async function carregarTransacoes(elementId) {
 
       const btnExcluir = document.createElement("button");
       btnExcluir.textContent = "Excluir";
+      btnExcluir.className = "btn-excluir"; // Adiciona uma classe para estilização
       btnExcluir.addEventListener("click", () => excluir(t.id));
-      item.querySelector(".info-container").appendChild(btnExcluir);
+      // Adiciona o botão diretamente ao item da transação
+      item.appendChild(btnExcluir);
 
       lista.appendChild(item);
     });
