@@ -1,20 +1,22 @@
 // URL do backend no Render
 const BACKEND_URL = "https://financas-j3ri.onrender.com";
 
-// Funções JavaScript com melhorias para o novo layout
-const formReceita = document.getElementById("form-receita");
-const formDespesa = document.getElementById("form-despesa");
+// 🔹 Função central de API
+async function api(endpoint, options = {}) {
+  try {
+    const res = await fetch(`${BACKEND_URL}/${endpoint}`, {
+      headers: { "Content-Type": "application/json" },
+      ...options,
+    });
+    if (!res.ok) throw new Error(`Erro: ${res.status}`);
+    return await res.json();
+  } catch (error) {
+    console.error("Erro API:", error);
+    throw error;
+  }
+}
 
-formReceita.addEventListener("submit", async function (e) {
-  e.preventDefault();
-  await processarTransacao(this, "receita", "mensagem-receita");
-});
-
-formDespesa.addEventListener("submit", async function (e) {
-  e.preventDefault();
-  await processarTransacao(this, "despesa", "mensagem-despesa");
-});
-
+// 🔹 Processar transação (receita ou despesa)
 async function processarTransacao(form, tipo, elementoMensagem) {
   const formData = new FormData(form);
   const payload = {
@@ -23,63 +25,56 @@ async function processarTransacao(form, tipo, elementoMensagem) {
     descricao: formData.get("descricao"),
   };
 
+  if (!payload.valor || payload.valor <= 0) {
+    return exibirMensagem(elementoMensagem, "Valor inválido!", "error");
+  }
+
   try {
-    const response = await fetch(`${BACKEND_URL}/${tipo}`, {
+    const result = await api(tipo, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload)
+      body: JSON.stringify(payload),
     });
 
-    const result = await response.json();
     exibirMensagem(elementoMensagem, result.mensagem, "success");
-
     form.reset();
-    carregarTransacoes();
-    carregaSaldo();
-  } catch (error) {
-    console.error(`Erro ao adicionar ${tipo}:`, error);
+    atualizarDados(); // Atualiza tudo (saldo, transações e relatórios)
+  } catch {
     exibirMensagem(elementoMensagem, `Erro ao adicionar ${tipo}.`, "error");
   }
 }
 
+// 🔹 Exibir mensagens temporárias
 function exibirMensagem(elemento, mensagem, tipo) {
   const div = document.getElementById(elemento);
   div.textContent = mensagem;
   div.className = tipo;
 
   setTimeout(() => {
-    div.textContent = '';
-    div.className = '';
+    div.textContent = "";
+    div.className = "";
   }, 3000);
 }
 
+// 🔹 Excluir transação
 async function excluir(id) {
   try {
-    const res = await fetch(`${BACKEND_URL}/deleta/${id}`, {
-      method: 'DELETE'
-    });
-    if (!res.ok) {
-      throw new Error(`Erro ao excluir transação: ${res.status}`);
-    }
-
-    await carregarTransacoes();
-  } catch (err) {
-    console.error(err);
+    await api(`deleta/${id}`, { method: "DELETE" });
+    atualizarDados();
+  } catch {
+    exibirMensagem("mensagem-despesa", "Erro ao excluir transação.", "error");
   }
 }
 
+// 🔹 Carregar transações
 async function carregarTransacoes() {
-  try {
-    const res = await fetch(`${BACKEND_URL}/transacoes`);
-    if (!res.ok) {
-      throw new Error(`Erro ao carregar transações: ${res.status}`);
-    }
-    const data = await res.json();
+  const lista = document.getElementById("lista-transacoes");
+  lista.innerHTML = "<p>Carregando...</p>";
 
-    const lista = document.getElementById("lista-transacoes");
+  try {
+    const data = await api("transacoes");
     lista.innerHTML = "";
 
-    if (!data || !data.transacoes || data.transacoes.length === 0) {
+    if (!data?.transacoes?.length) {
       lista.innerHTML = `
         <div class="empty-state">
           <p>Nenhuma transação registrada.</p>
@@ -90,61 +85,46 @@ async function carregarTransacoes() {
 
     data.transacoes.forEach((t) => {
       const item = document.createElement("div");
-      item.className = `transacao ${t.tipo === 'r' ? 'receita' : 'despesa'}`;
+      item.className = `transacao ${t.tipo === "r" ? "receita" : "despesa"}`;
 
       const dataFormatada = formatarData(t.data);
 
       item.innerHTML = `
         <div class="info-container">
           <span class="categoria">${t.categoria}</span>
-          <span class="descricao">${t.descricao || 'Sem descrição'}</span>
+          <span class="descricao">${t.descricao || "Sem descrição"}</span>
           <span class="data">${dataFormatada}</span>
-          <button onclick="excluir(${t.id})">excluir</button>
         </div>
         <span class="valor">R$ ${parseFloat(t.valor).toFixed(2)}</span>
       `;
 
+      const btnExcluir = document.createElement("button");
+      btnExcluir.textContent = "Excluir";
+      btnExcluir.addEventListener("click", () => excluir(t.id));
+      item.querySelector(".info-container").appendChild(btnExcluir);
+
       lista.appendChild(item);
     });
-  } catch (error) {
-    console.error("Erro ao carregar transações:", error);
-    document.getElementById("lista-transacoes").innerHTML = `
-      <div class="error">Erro ao carregar transações. Verifique sua conexão.</div>`;
+  } catch {
+    lista.innerHTML = `<div class="error">Erro ao carregar transações.</div>`;
   }
 }
 
-function formatarData(dataString) {
-  const data = new Date(dataString);
-  return new Intl.DateTimeFormat('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  }).format(data);
-}
-
+// 🔹 Carregar saldo
 async function carregaSaldo() {
   try {
-    const res = await fetch(`${BACKEND_URL}/saldo`);
-    const extrato = await res.json();
-
+    const extrato = await api("saldo");
     const saldoElement = document.getElementById("exibe-saldo");
+    const saldo = parseFloat(extrato.saldo) || 0;
 
-    if (extrato.saldo === undefined || extrato.saldo === null) {
-      saldoElement.textContent = "R$ 0,00";
-      return;
-    }
-
-    const saldo = parseFloat(extrato.saldo);
     saldoElement.textContent = `R$ ${saldo.toFixed(2)}`;
-    saldoElement.style.color = saldo >= 0 ? '#22c55e' : '#ef4444';
-  } catch (error) {
-    console.error("Erro ao carregar saldo:", error);
+    saldoElement.style.color = saldo >= 0 ? "#22c55e" : "#ef4444";
+  } catch {
     document.getElementById("exibe-saldo").textContent = "Erro";
   }
 }
 
+<<<<<<< HEAD
 document.addEventListener('DOMContentLoaded', () => {
   // Carrega o saldo em todas as páginas que incluem este script
   carregaSaldo();
@@ -153,4 +133,63 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById("lista-transacoes")) {
     carregarTransacoes();
   }
+=======
+// 🔹 Carregar relatórios (novo)
+async function carregarRelatorios() {
+  try {
+    const relatorios = await api("relatorios");
+    // 👉 Aqui você atualiza gráficos, cards de resumo etc.
+    // Exemplo:
+    document.getElementById("receitas-total").textContent = 
+      `R$ ${relatorios.receitas.toFixed(2)}`;
+    document.getElementById("despesas-total").textContent = 
+      `R$ ${relatorios.despesas.toFixed(2)}`;
+  } catch (err) {
+    console.error("Erro ao carregar relatórios:", err);
+  }
+}
+
+// 🔹 Atualizar tudo de uma vez
+async function atualizarDados() {
+  await Promise.all([carregarTransacoes(), carregaSaldo(), carregarRelatorios()]);
+}
+
+// 🔹 Utils
+function formatarData(dataString) {
+  const data = new Date(dataString);
+  return new Intl.DateTimeFormat("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(data);
+}
+
+// 🔹 Inicialização
+document.addEventListener("DOMContentLoaded", () => {
+  // Eventos dos formulários
+  document.querySelectorAll("form[data-tipo]").forEach((form) => {
+    const tipo = form.getAttribute("data-tipo");
+    const mensagem = form.getAttribute("data-mensagem");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      processarTransacao(form, tipo, mensagem);
+    });
+  });
+
+  // Navegação entre seções
+  document.querySelectorAll("nav [data-section]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll("main section").forEach((sec) =>
+        sec.classList.remove("active")
+      );
+      const target = document.getElementById(btn.dataset.section);
+      if (target) target.classList.add("active");
+    });
+  });
+
+  // Carregar dados iniciais
+  atualizarDados();
+>>>>>>> bbcfd471ea8da08f910d75681394f82a17739897
 });
