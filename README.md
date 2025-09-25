@@ -13,9 +13,11 @@ Uma API RESTful simples e eficiente para gerenciamento de finanças pessoais, co
 
 ## 📋 Sobre o Projeto
 
-![alt text](image.png)
-![alt text](image-1.png)
-![alt text](image-2.png)
+<img width="1829" height="876" alt="image" src="https://github.com/user-attachments/assets/6314dbf0-b6c3-468a-b3b9-f9c05c6b055b" />
+<img width="1840" height="702" alt="image" src="https://github.com/user-attachments/assets/4f398d10-3537-491d-9a75-dcd8161a8bda" />
+<img width="1668" height="692" alt="image" src="https://github.com/user-attachments/assets/e5eea7e5-75e5-4f5a-b778-9bc5ae3f3d10" />
+
+
 
 
 
