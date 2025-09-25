@@ -37,7 +37,7 @@ async function processarTransacao(form, tipo, elementoMensagem) {
 
     exibirMensagem(elementoMensagem, result.mensagem, "success");
     form.reset();
-    atualizarDados(); // Atualiza tudo (saldo, transações e relatórios)
+    atualizarDados(); // Atualiza tudo
   } catch {
     exibirMensagem(elementoMensagem, `Erro ao adicionar ${tipo}.`, "error");
   }
@@ -124,24 +124,65 @@ async function carregaSaldo() {
   }
 }
 
-// 🔹 Carregar relatórios (novo)
+// 🔹 Carregar relatórios gerais
 async function carregarRelatorios() {
   try {
-    const relatorios = await api("relatorios");
-    // 👉 Aqui você atualiza gráficos, cards de resumo etc.
-    // Exemplo:
-    document.getElementById("receitas-total").textContent = 
-      `R$ ${relatorios.receitas.toFixed(2)}`;
-    document.getElementById("despesas-total").textContent = 
-      `R$ ${relatorios.despesas.toFixed(2)}`;
+    const data = await api("relatorios/todas");
+
+    if (!data?.relatorio?.length) {
+      console.log("Nenhum dado de relatório.");
+      return;
+    }
+
+    let totalReceitas = 0;
+    let totalDespesas = 0;
+
+    data.relatorio.forEach((t) => {
+      if (t.tipo.toLowerCase() === "r") {
+        totalReceitas += parseFloat(t.valor);
+      } else {
+        totalDespesas += parseFloat(t.valor);
+      }
+    });
+
+    document.getElementById("receitas-total").textContent =
+      `R$ ${totalReceitas.toFixed(2)}`;
+    document.getElementById("despesas-total").textContent =
+      `R$ ${totalDespesas.toFixed(2)}`;
   } catch (err) {
     console.error("Erro ao carregar relatórios:", err);
   }
 }
 
+// 🔹 Relatório por mês
+async function carregarRelatorioMes(mes) {
+  try {
+    const data = await api(`relatorios/mes?mes=${mes}`);
+    console.log("Relatório do mês:", data.relatorio);
+    
+  } catch (err) {
+    console.error("Erro ao carregar relatório do mês:", err);
+  }
+}
+
+// 🔹 Relatório por categoria
+async function carregarRelatorioCategoria(categoria) {
+  try {
+    const data = await api(`relatorios/categoria?categoria=${categoria}`);
+    console.log("Relatório da categoria:", data.relatorio);
+    // 👉 Atualizar UI conforme a categoria escolhida
+  } catch (err) {
+    console.error("Erro ao carregar relatório da categoria:", err);
+  }
+}
+
 // 🔹 Atualizar tudo de uma vez
 async function atualizarDados() {
-  await Promise.all([carregarTransacoes(), carregaSaldo(), carregarRelatorios()]);
+  await Promise.all([
+    carregarTransacoes(),
+    carregaSaldo(),
+    carregarRelatorios()
+  ]);
 }
 
 // 🔹 Utils
@@ -181,5 +222,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Carregar dados iniciais
   atualizarDados();
-});
 
+   já carregar relatório do mês atual
+  const mesAtual = String(new Date().getMonth() + 1).padStart(2, "0");
+  carregarRelatorioMes(mesAtual);
+});
