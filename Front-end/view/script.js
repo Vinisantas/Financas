@@ -115,9 +115,9 @@ async function carregarTransacoes(elementId) {
 
       item.innerHTML = `
         <div class="info-container">
-          <span class="categoria">${t.categoria}</span>
+          <strong class="categoria">${t.categoria}</strong>
           <span class="descricao">${t.descricao || "Sem descrição"}</span>
-          <span class="data">${dataFormatada}</span>
+          <small class="data">${dataFormatada}</small>
         </div>
         <span class="valor">R$ ${parseFloat(t.valor).toFixed(2)}</span>
       `;
