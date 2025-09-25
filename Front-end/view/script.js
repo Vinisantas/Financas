@@ -124,7 +124,6 @@ async function carregaSaldo() {
   }
 }
 
-<<<<<<< HEAD
 document.addEventListener('DOMContentLoaded', () => {
   // Carrega o saldo em todas as páginas que incluem este script
   carregaSaldo();
@@ -133,63 +132,4 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById("lista-transacoes")) {
     carregarTransacoes();
   }
-=======
-// 🔹 Carregar relatórios (novo)
-async function carregarRelatorios() {
-  try {
-    const relatorios = await api("relatorios");
-    // 👉 Aqui você atualiza gráficos, cards de resumo etc.
-    // Exemplo:
-    document.getElementById("receitas-total").textContent = 
-      `R$ ${relatorios.receitas.toFixed(2)}`;
-    document.getElementById("despesas-total").textContent = 
-      `R$ ${relatorios.despesas.toFixed(2)}`;
-  } catch (err) {
-    console.error("Erro ao carregar relatórios:", err);
-  }
-}
-
-// 🔹 Atualizar tudo de uma vez
-async function atualizarDados() {
-  await Promise.all([carregarTransacoes(), carregaSaldo(), carregarRelatorios()]);
-}
-
-// 🔹 Utils
-function formatarData(dataString) {
-  const data = new Date(dataString);
-  return new Intl.DateTimeFormat("pt-BR", {
-    day: "2-digit",
-    month: "2-digit",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(data);
-}
-
-// 🔹 Inicialização
-document.addEventListener("DOMContentLoaded", () => {
-  // Eventos dos formulários
-  document.querySelectorAll("form[data-tipo]").forEach((form) => {
-    const tipo = form.getAttribute("data-tipo");
-    const mensagem = form.getAttribute("data-mensagem");
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-      processarTransacao(form, tipo, mensagem);
-    });
-  });
-
-  // Navegação entre seções
-  document.querySelectorAll("nav [data-section]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll("main section").forEach((sec) =>
-        sec.classList.remove("active")
-      );
-      const target = document.getElementById(btn.dataset.section);
-      if (target) target.classList.add("active");
-    });
-  });
-
-  // Carregar dados iniciais
-  atualizarDados();
->>>>>>> bbcfd471ea8da08f910d75681394f82a17739897
 });
