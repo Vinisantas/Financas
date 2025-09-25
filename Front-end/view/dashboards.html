@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Mooby - Relatórios Detalhados</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header>
+    <h1>Mooby Finance</h1>
+    <div class="saldo-atual">
+      <span>Saldo Atual:</span>
+      <span id="exibe-saldo">R$ 0,00</span>
+    </div>
+  </header>
+  <nav>
+    <ul>
+      <li><a href="index.html">🏠 Início</a></li>
+      <li><a href="dashboards.html">📊 Relatórios</a></li>
+      <li><a href="inputs.html">💰 Finanças</a></li>
+    </ul>
+  </nav>
+  <main role="main">
+    <div class="filtros-relatorio">
+      <select id="filtro-mes">
+        <option value="">Todos os meses</option>
+        <option value="01">Janeiro</option>
+        <option value="02">Fevereiro</option>
+        <option value="03">Março</option>
+        <option value="04">Abril</option>
+        <option value="05">Maio</option>
+        <option value="06">Junho</option>
+        <option value="07">Julho</option>
+        <option value="08">Agosto</option>
+        <option value="09">Setembro</option>
+        <option value="10">Outubro</option>
+        <option value="11">Novembro</option>
+        <option value="12">Dezembro</option>
+      </select>
+      <button onclick="carregarRelatorios()">Atualizar</button>
+    </div>
+    <!-- Resumo do Mês -->
+    <div class="resumo-mes">
+      <h2 id="titulo-mes">Resumo do Mês</h2>
+      <div class="cards-resumo">
+        <div class="card-mes">
+          <h3>Saldo do Mês</h3>
+          <div class="valor-grande" id="saldo-mes">R$ 0,00</div>
+        </div>
+        <div class="card-mes receita">
+          <h3>Receitas</h3>
+          <div class="valor-grande" id="receitas-mes">R$ 0,00</div>
+        </div>
+        <div class="card-mes despesa">
+          <h3>Despesas</h3>
+          <div class="valor-grande" id="despesas-mes">R$ 0,00</div>
+        </div>
+      </div>
+    </div>
+    <!-- Gráfico de Despesas por Categoria -->
+    <div class="grafico-container">
+      <h3>Despesas por Categoria</h3>
+      <div id="grafico-categorias" class="grafico-lista">
+        <!-- Gerado via JavaScript -->
+      </div>
+    </div>
+    <!-- Gráfico de Receitas por Categoria -->
+    <div class="grafico-container">
+      <h3>Receitas por Categoria</h3>
+      <div id="grafico-receitas" class="grafico-lista">
+        <!-- Gerado via JavaScript -->
+      </div>
+    </div>
+    <!-- Evolução Mensal -->
+    <div class="grafico-container">
+      <h3>Evolução Mensal</h3>
+      <div id="evolucao-mensal" class="grafico-barras">
+        <!-- Gerado via JavaScript -->
+      </div>
+    </div>
+    <!-- Transações do Mês -->
+    <div class="transacoes-mes">
+      <h3>Transações do Mês</h3>
+      <div id="lista-transacoes-mes" class="transacoes-lista"></div>
+    </div>
+  </main>
+  <script src="relatorios.js"></script>
+</body>
+
+</html>
