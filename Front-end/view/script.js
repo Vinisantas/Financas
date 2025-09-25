@@ -43,6 +43,16 @@ async function processarTransacao(form, tipo, elementoMensagem) {
   }
 }
 
+// 🔹 Atualizar dados na tela (saldo e transações)
+function atualizarDados() {
+  carregaSaldo();
+  // Verifica em qual página estamos para recarregar a lista correta
+  if (document.getElementById("lista-transacoes")) {
+    carregarTransacoes("lista-transacoes");
+  }
+  // Se houver uma função para carregar relatórios, chame-a também
+  if (typeof carregarRelatorios === 'function') carregarRelatorios();
+}
 // 🔹 Exibir mensagens temporárias
 function exibirMensagem(elemento, mensagem, tipo) {
   const div = document.getElementById(elemento);
@@ -66,8 +76,12 @@ async function excluir(id) {
 }
 
 // 🔹 Carregar transações
-async function carregarTransacoes() {
-  const lista = document.getElementById("lista-transacoes");
+async function carregarTransacoes(elementId) {
+  const lista = document.getElementById(elementId);
+  if (!lista) {
+    // console.warn(`Elemento com ID "${elementId}" não encontrado.`);
+    return;
+  }
   lista.innerHTML = "<p>Carregando...</p>";
 
   try {
@@ -130,6 +144,6 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // Carrega a lista de transações recentes apenas se o elemento existir na página (inputs.html)
   if (document.getElementById("lista-transacoes")) {
-    carregarTransacoes();
+    carregarTransacoes("lista-transacoes");
   }
 });
