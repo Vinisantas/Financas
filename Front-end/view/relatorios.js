@@ -88,7 +88,7 @@ function renderizarItensCategoria(container, categorias, tipo) {
         <div class="info-categoria">
           <span class="nome-categoria">${nome}</span>
           <div class="barra-container">
-            <div class="barra-progresso ${tipo}" style="width: ${percentual}%;"></div>
+            <div class="barra-progresso ${tipo}" style="inline-size: ${percentual}%;"></div>
           </div>
         </div>
         <span class="valor-categoria">${formatarMoeda(valor)}</span>
@@ -124,7 +124,7 @@ async function carregarEvolucaoMensal() {
         <div class="barra-mensal">
           <span class="mes-label">${NOME_MES[mes]}</span>
           <div class="barra-mes-container">
-            <div class="barra-receitas" style="width: ${percentReceita}%;"></div>
+            <div class="barra-receitas" style="inline-size: ${percentReceita}%;"></div>
           </div>
           <div class="valores-mes">
             <span class="valor-mes receita">${formatarMoeda(valores.receitas)}</span>

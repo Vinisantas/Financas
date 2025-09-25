@@ -37,7 +37,7 @@ async function processarTransacao(form, tipo, elementoMensagem) {
 
     exibirMensagem(elementoMensagem, result.mensagem, "success");
     form.reset();
-    atualizarDados(); // Atualiza tudo (saldo, transações e relatórios)
+    atualizarDados();
   } catch {
     exibirMensagem(elementoMensagem, `Erro ao adicionar ${tipo}.`, "error");
   }
@@ -46,16 +46,16 @@ async function processarTransacao(form, tipo, elementoMensagem) {
 // 🔹 Atualizar dados na tela (saldo e transações)
 function atualizarDados() {
   carregaSaldo();
-  // Verifica em qual página estamos para recarregar a lista correta
   if (document.getElementById("lista-transacoes")) {
     carregarTransacoes("lista-transacoes");
   }
-  // Se houver uma função para carregar relatórios, chame-a também
   if (typeof carregarRelatorios === 'function') carregarRelatorios();
 }
+
 // 🔹 Exibir mensagens temporárias
 function exibirMensagem(elemento, mensagem, tipo) {
   const div = document.getElementById(elemento);
+  if (!div) return;
   div.textContent = mensagem;
   div.className = tipo;
 
@@ -75,28 +75,18 @@ async function excluir(id) {
   }
 }
 
-/**
- * Formata uma string de data 'YYYY-MM-DD' para o formato 'DD/MM/YYYY'.
- * @param {string} dataString A data no formato 'YYYY-MM-DD'..
- * @returns {string} A data formatada.
- */
+// 🔹 Formatar data
 function formatarData(dataString) {
-  // A data vem como "YYYY-MM-DD HH:MM:SS", separamos a data da hora.
   const [datePart, timePart] = dataString.split(' ');
   const [ano, mes, dia] = datePart.split('-');
-  
-  // Retorna um objeto com a data e a hora (sem os segundos)
-  const hora = timePart ? timePart.substring(0, 5) : ''; // Pega apenas HH:MM
-  return { data: `${dia}/${mes}/${ano}`, hora: hora };
+  const hora = timePart ? timePart.substring(0, 5) : '';
+  return { data: `${dia}/${mes}/${ano}`, hora };
 }
 
 // 🔹 Carregar transações
 async function carregarTransacoes(elementId) {
   const lista = document.getElementById(elementId);
-  if (!lista) {
-    // console.warn(`Elemento com ID "${elementId}" não encontrado.`);
-    return;
-  }
+  if (!lista) return;
   lista.innerHTML = "<p>Carregando...</p>";
 
   try {
@@ -115,7 +105,6 @@ async function carregarTransacoes(elementId) {
     data.transacoes.forEach((t) => {
       const item = document.createElement("div");
       item.className = `transacao ${t.tipo === "r" ? "receita" : "despesa"}`;
-
       const { data, hora } = formatarData(t.data);
 
       item.innerHTML = `
@@ -129,9 +118,8 @@ async function carregarTransacoes(elementId) {
 
       const btnExcluir = document.createElement("button");
       btnExcluir.textContent = "Excluir";
-      btnExcluir.className = "btn-excluir"; // Adiciona uma classe para estilização
+      btnExcluir.className = "btn-excluir";
       btnExcluir.addEventListener("click", () => excluir(t.id));
-      // Adiciona o botão diretamente ao item da transação
       item.appendChild(btnExcluir);
 
       lista.appendChild(item);
@@ -143,12 +131,12 @@ async function carregarTransacoes(elementId) {
 
 // 🔹 Carregar saldo
 async function carregaSaldo() {
+  const saldoElement = document.getElementById("exibe-saldo");
+  const quickSaldoElement = document.getElementById("quick-saldo");
+
   try {
     const extrato = await api("saldo");
-    const saldoElement = document.getElementById("exibe-saldo");
-    const quickSaldoElement = document.getElementById("quick-saldo"); // Para a página inicial
     const saldo = parseFloat(extrato.saldo) || 0;
-
     const saldoFormatado = `R$ ${saldo.toFixed(2).replace('.', ',')}`;
     const corSaldo = saldo >= 0 ? "#22c55e" : "#ef4444";
 
@@ -160,38 +148,49 @@ async function carregaSaldo() {
       quickSaldoElement.textContent = saldoFormatado;
     }
   } catch {
-    document.getElementById("exibe-saldo").textContent = "Erro";
+    if (saldoElement) saldoElement.textContent = "Erro";
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Carrega o saldo em todas as páginas que incluem este script
-  carregaSaldo();
-  
-  // Carrega a lista de transações recentes apenas se o elemento existir na página (inputs.html)
-  if (document.getElementById("lista-transacoes")) {
-    carregarTransacoes("lista-transacoes");
-  }
-
-  // Carrega o resumo da página inicial se os elementos existirem
-  if (document.getElementById("transacoes-hoje")) {
-    carregarResumoIndexPage();
-  }
-});
-
-/**
- * Carrega os dados específicos da página inicial (index.html).
- */
+// 🔹 Carregar resumo da página inicial
 async function carregarResumoIndexPage() {
   try {
     const { transacoes } = await api("transacoes");
-    const hoje = new Date().toISOString().split('T')[0]; // Formato YYYY-MM-DD
-
-    // Compara apenas a parte da data (YYYY-MM-DD), ignorando a hora.
+    const hoje = new Date().toISOString().split('T')[0];
     const transacoesHoje = transacoes.filter(t => t.data.startsWith(hoje)).length;
-    document.getElementById("transacoes-hoje").textContent = transacoesHoje;
-  } catch (error) {
-    console.error("Erro ao carregar resumo do dia:", error);
-    document.getElementById("transacoes-hoje").textContent = "N/A";
+    const el = document.getElementById("transacoes-hoje");
+    if (el) el.textContent = transacoesHoje;
+  } catch {
+    const el = document.getElementById("transacoes-hoje");
+    if (el) el.textContent = "N/A";
   }
 }
+
+// 🔹 Inicialização
+document.addEventListener('DOMContentLoaded', () => {
+  carregaSaldo();
+  if (document.getElementById("lista-transacoes")) {
+    carregarTransacoes("lista-transacoes");
+  }
+  if (document.getElementById("transacoes-hoje")) {
+    carregarResumoIndexPage();
+  }
+
+  // Adicionar listeners dos formulários
+  const formReceita = document.getElementById("form-receita");
+  const formDespesa = document.getElementById("form-despesa");
+
+  if (formReceita) {
+    formReceita.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await processarTransacao(formReceita, "receita", "mensagem-receita");
+    });
+  }
+
+  if (formDespesa) {
+    formDespesa.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      await processarTransacao(formDespesa, "despesa", "mensagem-despesa");
+    });
+  }
+});
