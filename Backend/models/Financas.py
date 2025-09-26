@@ -1,82 +1,78 @@
-import sqlite3
+import os
+import psycopg2
+from psycopg2.extras import RealDictCursor
 from datetime import datetime
+from dotenv import load_dotenv
 
+# Carrega variáveis do .env (quando rodar localmente)
+load_dotenv()
 
 class Financas:
     def __init__(self):
-        self.conn = sqlite3.connect("database/financas.db", check_same_thread=False)
-        self.cursor = self.conn.cursor()
+        DATABASE_URL = os.getenv("DATABASE_URL")
+        if not DATABASE_URL:
+            raise ValueError("❌ DATABASE_URL não encontrada. Defina no Render ou em um arquivo .env")
+
+        # Conexão com PostgreSQL
+        self.conn = psycopg2.connect(DATABASE_URL)
+        self.cursor = self.conn.cursor(cursor_factory=RealDictCursor)
         self.criar_tabela()
 
     def criar_tabela(self):
         self.cursor.execute(
             """
             CREATE TABLE IF NOT EXISTS transacao (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                valor REAL,
+                id SERIAL PRIMARY KEY,
+                valor NUMERIC,
                 descricao TEXT,
                 categoria TEXT,
-                tipo TEXT,
-                data TEXT
+                tipo CHAR(1),
+                data TIMESTAMP
             )
-        """
+            """
         )
         self.conn.commit()
 
     def adicionar_receita(self, descricao, valor, categoria):
         self.cursor.execute(
-            "INSERT INTO transacao (valor, descricao, categoria, tipo, data) VALUES (?, ?, ?, ?, ?)",
-            (
-                valor,
-                descricao,
-                categoria,
-                "r",
-                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            ),
+            """
+            INSERT INTO transacao (valor, descricao, categoria, tipo, data)
+            VALUES (%s, %s, %s, %s, %s)
+            """,
+            (valor, descricao, categoria, "r", datetime.now()),
         )
         self.conn.commit()
 
     def adicionar_despesa(self, descricao, valor, categoria):
         self.cursor.execute(
-            "INSERT INTO transacao (valor, descricao,  categoria, tipo, data) VALUES (?, ?, ?, ?, ?)",
-            (
-                valor,
-                descricao,
-                categoria,
-                "d",
-                datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            ),
+            """
+            INSERT INTO transacao (valor, descricao, categoria, tipo, data)
+            VALUES (%s, %s, %s, %s, %s)
+            """,
+            (valor, descricao, categoria, "d", datetime.now()),
         )
         self.conn.commit()
 
     def listar_todas(self):
         self.cursor.execute(
-            "SELECT id, valor, descricao, categoria, tipo, data FROM transacao ORDER BY datetime(data) DESC"
+            "SELECT id, valor, descricao, categoria, tipo, data FROM transacao ORDER BY data DESC"
         )
-        rows = self.cursor.fetchall()
-        transacoes = []
-        for row in rows:
-            transacoes.append({
-                "id": row[0],
-                "valor": row[1],
-                "descricao": row[2],
-                "categoria": row[3],
-                "tipo": row[4],
-                "data": row[5]
-            })
-        return transacoes
-
+        return self.cursor.fetchall()
 
     def Saldo(self):
         self.cursor.execute(
-            "SELECT SUM(CASE WHEN tipo='r' THEN valor ELSE 0 END) - SUM(CASE WHEN tipo='d' THEN valor ELSE 0 END) FROM transacao"
+            """
+            SELECT 
+                COALESCE(SUM(CASE WHEN tipo = 'r' THEN valor ELSE 0 END), 0) -
+                COALESCE(SUM(CASE WHEN tipo = 'd' THEN valor ELSE 0 END), 0) 
+                AS saldo
+            FROM transacao
+            """
         )
-        saldo = self.cursor.fetchone()[0]
-        return saldo
+        return self.cursor.fetchone()["saldo"]
 
     def deleta_transacao(self, id):
-        id_transacao = id
         self.cursor.execute(
-            "DELETE FROM transacao WHERE id = ?", (id_transacao,)
+            "DELETE FROM transacao WHERE id = %s", (id,)
         )
         self.conn.commit()
