@@ -30,12 +30,7 @@
         <form id="form-receita">
           <input type="number" step="0.01" name="valor" placeholder="Valor" required>
           <input type="text" name="descricao" placeholder="Descrição" required>
-          <select name="categoria" required>
-            <option value="">Selecione uma categoria</option>
-            <option value="Salário">Salário</option>
-            <option value="Motoboy">Motoboy</option>
-            <option value="Freelance">Freelance</option>
-          </select>
+          <input type="text" name="categoria" placeholder="categoria" required>
           <button type="submit">Adicionar Receita</button>
           <div id="mensagem-receita"></div>
         </form>
@@ -46,14 +41,7 @@
         <form id="form-despesa">
           <input type="number" step="0.01" name="valor" placeholder="Valor" required>
           <input type="text" name="descricao" placeholder="Descrição" required>
-          <select name="categoria" required>
-            <option value="">Selecione uma categoria</option>
-            <option value="Alimentação">Alimentação</option>
-            <option value="Transporte">Transporte</option>
-            <option value="Lazer">Lazer</option>
-            <option value="Saúde">Saúde</option>
-            <option value="Educação">Educação</option>
-          </select>
+          <input type="text" name="categoria" placeholder="categoria" required>
           <button type="submit">Adicionar Despesa</button>
           <div id="mensagem-despesa"></div>
         </form>
