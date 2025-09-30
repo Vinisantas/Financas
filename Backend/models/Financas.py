@@ -49,12 +49,14 @@ class Financas:
         conn = self.conectar()
         try:
             with conn.cursor() as cursor:
+                data_formatada = datetime.now().strftime("%d/%m/%Y as %H:%M")
+
                 cursor.execute(
                     """
                     INSERT INTO transacao (valor, descricao, categoria, tipo, data)
                     VALUES (%s, %s, %s, %s, %s)
                     """,
-                    (valor, descricao, categoria, "r", datetime.now()),
+                    (valor, descricao, categoria, "r", data_formatada),
                 )
                 conn.commit()
         finally:
@@ -64,12 +66,13 @@ class Financas:
         conn = self.conectar()
         try:
             with conn.cursor() as cursor:
+                data_formatada = datetime.now().strftime("%d/%m/%Y as %H:%M")
                 cursor.execute(
                     """
                     INSERT INTO transacao (valor, descricao, categoria, tipo, data)
                     VALUES (%s, %s, %s, %s, %s)
                     """,
-                    (valor, descricao, categoria, "d", datetime.now()),
+                    (valor, descricao, categoria, "d", data_formatada),
                 )
                 conn.commit()
         finally:
