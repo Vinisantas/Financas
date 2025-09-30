@@ -77,10 +77,9 @@ async function excluir(id) {
 
 // 🔹 Formatar data
 function formatarData(dataString) {
-  const [datePart, timePart] = dataString.split(' ');
-  const [ano, mes, dia] = datePart.split('-');
-  const hora = timePart ? timePart.substring(0, 5) : '';
-  return { data: `${dia}/${mes}/${ano}`, hora };
+  const [data, ...rest] = dataString.split(' às ');
+  const hora = rest.length ? rest.join(' às ') : '';
+  return { data, hora };
 }
 
 // 🔹 Carregar transações
@@ -111,7 +110,7 @@ async function carregarTransacoes(elementId) {
         <div class="info-container">
           <strong class="categoria">${t.categoria}</strong>
           <span class="descricao">${t.descricao || "Sem descrição"}</span>
-          <small class="data">${data} às ${hora}</small>
+          <small class="data">${data}${hora ? ' às ' + hora : ''}</small>
         </div>
         <span class="valor">R$ ${parseFloat(t.valor).toFixed(2)}</span>
       `;
