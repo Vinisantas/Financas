@@ -3,6 +3,7 @@ import psycopg2
 from psycopg2 import pool
 from psycopg2.extras import RealDictCursor
 from datetime import datetime
+import pytz
 from dotenv import load_dotenv
 
 # Carrega variáveis do .env (quando rodar localmente)
@@ -49,7 +50,9 @@ class Financas:
         conn = self.conectar()
         try:
             with conn.cursor() as cursor:
-                data_formatada = datetime.now().strftime("%d/%m/%Y às %H:%M")
+                fuso_brasilia = pytz.timezone("America/Sao_Paulo")
+                agora = datetime.now(fuso_brasilia)
+                data_formatada = agora.strftime("%d/%m/%Y às %H:%M")
                 cursor.execute(
                     """
                     INSERT INTO transacao (valor, descricao, categoria, tipo, data)
@@ -65,7 +68,9 @@ class Financas:
         conn = self.conectar()
         try:
             with conn.cursor() as cursor:
-                data_formatada = datetime.now().strftime("%d/%m/%Y às %H:%M")
+                fuso_brasilia = pytz.timezone("America/Sao_Paulo")
+                agora = datetime.now(fuso_brasilia)
+                data_formatada = agora.strftime("%d/%m/%Y às %H:%M")
                 cursor.execute(
                     """
                     INSERT INTO transacao (valor, descricao, categoria, tipo, data)
