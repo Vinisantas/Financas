@@ -37,7 +37,7 @@ class Financas:
                         descricao TEXT,
                         categoria TEXT,
                         tipo CHAR(1),
-                        data TIMESTAMP
+                        data TYPE TEXT
                     )
                     """
                 )
@@ -49,8 +49,7 @@ class Financas:
         conn = self.conectar()
         try:
             with conn.cursor() as cursor:
-                data_formatada = datetime.now().strftime("%d/%m/%Y as %H:%M")
-
+                data_formatada = datetime.now().strftime("%d/%m/%Y às %H:%M")
                 cursor.execute(
                     """
                     INSERT INTO transacao (valor, descricao, categoria, tipo, data)
@@ -66,7 +65,7 @@ class Financas:
         conn = self.conectar()
         try:
             with conn.cursor() as cursor:
-                data_formatada = datetime.now().strftime("%d/%m/%Y as %H:%M")
+                data_formatada = datetime.now().strftime("%d/%m/%Y às %H:%M")
                 cursor.execute(
                     """
                     INSERT INTO transacao (valor, descricao, categoria, tipo, data)
