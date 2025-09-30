@@ -1,5 +1,6 @@
 import os
 import psycopg2
+from psycopg2 import pool
 from psycopg2.extras import RealDictCursor
 from datetime import datetime
 from dotenv import load_dotenv
@@ -12,13 +13,21 @@ class Financas:
         self.DATABASE_URL = os.getenv("DATABASE_URL")
         if not self.DATABASE_URL:
             raise ValueError("❌ DATABASE_URL não encontrada. Defina no Render ou em um arquivo .env")
+        # Cria um pool de conexões com até 10 conexões simultâneas
+        self.pool = psycopg2.pool.SimpleConnectionPool(
+            1, 10, self.DATABASE_URL, cursor_factory=RealDictCursor
+        )
         self.criar_tabela()
 
     def conectar(self):
-        return psycopg2.connect(self.DATABASE_URL, cursor_factory=RealDictCursor)
+        return self.pool.getconn()
+
+    def liberar(self, conn):
+        self.pool.putconn(conn)
 
     def criar_tabela(self):
-        with self.conectar() as conn:
+        conn = self.conectar()
+        try:
             with conn.cursor() as cursor:
                 cursor.execute(
                     """
@@ -33,9 +42,12 @@ class Financas:
                     """
                 )
                 conn.commit()
+        finally:
+            self.liberar(conn)
 
     def adicionar_receita(self, descricao, valor, categoria):
-        with self.conectar() as conn:
+        conn = self.conectar()
+        try:
             with conn.cursor() as cursor:
                 cursor.execute(
                     """
@@ -45,9 +57,12 @@ class Financas:
                     (valor, descricao, categoria, "r", datetime.now()),
                 )
                 conn.commit()
+        finally:
+            self.liberar(conn)
 
     def adicionar_despesa(self, descricao, valor, categoria):
-        with self.conectar() as conn:
+        conn = self.conectar()
+        try:
             with conn.cursor() as cursor:
                 cursor.execute(
                     """
@@ -57,17 +72,23 @@ class Financas:
                     (valor, descricao, categoria, "d", datetime.now()),
                 )
                 conn.commit()
+        finally:
+            self.liberar(conn)
 
     def listar_todas(self):
-        with self.conectar() as conn:
+        conn = self.conectar()
+        try:
             with conn.cursor() as cursor:
                 cursor.execute(
                     "SELECT id, valor, descricao, categoria, tipo, data FROM transacao ORDER BY data DESC"
                 )
                 return cursor.fetchall()
+        finally:
+            self.liberar(conn)
 
     def Saldo(self):
-        with self.conectar() as conn:
+        conn = self.conectar()
+        try:
             with conn.cursor() as cursor:
                 cursor.execute(
                     """
@@ -79,11 +100,16 @@ class Financas:
                     """
                 )
                 return cursor.fetchone()["saldo"]
+        finally:
+            self.liberar(conn)
 
     def deleta_transacao(self, id):
-        with self.conectar() as conn:
+        conn = self.conectar()
+        try:
             with conn.cursor() as cursor:
                 cursor.execute(
                     "DELETE FROM transacao WHERE id = %s", (id,)
                 )
                 conn.commit()
+        finally:
+            self.liberar(conn)
