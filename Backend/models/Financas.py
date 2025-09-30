@@ -37,7 +37,7 @@ class Financas:
                         descricao TEXT,
                         categoria TEXT,
                         tipo CHAR(1),
-                        data TYPE TEXT
+                        data TEXT
                     )
                     """
                 )
