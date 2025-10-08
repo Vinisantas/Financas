@@ -71,9 +71,9 @@ class Relatorios:
 
         for t in transacoes:
             if t["tipo"] == "r":
-                categorias["receitas"][t["categoria"]] += t["valor"]
+                categorias["receitas"][t["categoria"]] += Decimal(t["valor"])
             else:
-                categorias["despesas"][t["categoria"]] += t["valor"]
+                categorias["despesas"][t["categoria"]] += Decimal(t["valor"])
 
         return {
             "receitas": dict(categorias["receitas"]),
@@ -88,9 +88,9 @@ class Relatorios:
         for t in transacoes:
             mes = t["data"].strftime("%m")   # Extrai o mês (ex: "01", "02")
             if t["tipo"] == "r":
-                evolucao[mes]["receitas"] += t["valor"]
+                evolucao[mes]["receitas"] += Decimal(t["valor"])
             else:
-                evolucao[mes]["despesas"] += t["valor"]
+                evolucao[mes]["despesas"] += Decimal(t["valor"])
 
         # Ordena por mês
         sorted_evolucao = sorted(evolucao.items())
