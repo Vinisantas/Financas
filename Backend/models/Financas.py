@@ -52,13 +52,12 @@ class Financas:
             with conn.cursor() as cursor:
                 fuso_brasilia = pytz.timezone("America/Sao_Paulo")
                 agora = datetime.now(fuso_brasilia)
-                data_formatada = agora.strftime("%d/%m/%Y às %H:%M")
                 cursor.execute(
                     """
                     INSERT INTO transacao (valor, descricao, categoria, tipo, data)
                     VALUES (%s, %s, %s, %s, %s)
                     """,
-                    (valor, descricao, categoria, "r", data_formatada),
+                    (valor, descricao, categoria, "r", agora),
                 )
                 conn.commit()
         finally:
@@ -70,13 +69,12 @@ class Financas:
             with conn.cursor() as cursor:
                 fuso_brasilia = pytz.timezone("America/Sao_Paulo")
                 agora = datetime.now(fuso_brasilia)
-                data_formatada = agora.strftime("%d/%m/%Y às %H:%M")
                 cursor.execute(
                     """
                     INSERT INTO transacao (valor, descricao, categoria, tipo, data)
                     VALUES (%s, %s, %s, %s, %s)
                     """,
-                    (valor, descricao, categoria, "d", data_formatada),
+                    (valor, descricao, categoria, "d", agora),
                 )
                 conn.commit()
         finally:
