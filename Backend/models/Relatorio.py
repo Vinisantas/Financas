@@ -83,7 +83,7 @@ class Relatorios:
     def calcular_evolucao_mensal(self):
         """Calcula a soma de receitas e despesas para cada mês."""
         transacoes = self.obter_transacoes()
-        evolucao = defaultdict(lambda: {"receitas": 0.0, "despesas": 0.0})
+        evolucao = defaultdict(lambda: {"receitas": Decimal(0), "despesas": Decimal(0)})
 
         for t in transacoes:
             mes = t["data"].strftime("%m")   # Extrai o mês (ex: "01", "02")
