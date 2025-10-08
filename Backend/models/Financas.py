@@ -38,7 +38,7 @@ class Financas:
                         descricao TEXT,
                         categoria TEXT,
                         tipo CHAR(1),
-                        data TEXT
+                        data TIMESTAMP
                     )
                     """
                 )
@@ -52,7 +52,7 @@ class Financas:
             with conn.cursor() as cursor:
                 fuso_brasilia = pytz.timezone("America/Sao_Paulo")
                 agora = datetime.now(fuso_brasilia)
-                data_formatada = agora.strftime("%d/%m/%Y às %H:%M")
+                data_formatada = agora.strftime("%d/%m/%Y  %H:%M")
                 cursor.execute(
                     """
                     INSERT INTO transacao (valor, descricao, categoria, tipo, data)
@@ -70,7 +70,7 @@ class Financas:
             with conn.cursor() as cursor:
                 fuso_brasilia = pytz.timezone("America/Sao_Paulo")
                 agora = datetime.now(fuso_brasilia)
-                data_formatada = agora.strftime("%d/%m/%Y às %H:%M")
+                data_formatada = agora.strftime("%d/%m/%Y  %H:%M")
                 cursor.execute(
                     """
                     INSERT INTO transacao (valor, descricao, categoria, tipo, data)
