@@ -82,7 +82,7 @@ class Relatorios:
         evolucao = defaultdict(lambda: {"receitas": 0.0, "despesas": 0.0})
 
         for t in transacoes:
-            mes = t["data"].split("-")[1]  # Extrai o mês (ex: "01", "02")
+            mes = t["data"].strftime("%m")   # Extrai o mês (ex: "01", "02")
             if t["tipo"] == "r":
                 evolucao[mes]["receitas"] += t["valor"]
             else:
