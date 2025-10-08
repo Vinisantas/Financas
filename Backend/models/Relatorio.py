@@ -1,4 +1,5 @@
 from collections import defaultdict
+from decimal import Decimal
 
 class Relatorios:
     def __init__(self, financas):
@@ -63,7 +64,10 @@ class Relatorios:
         if mes:
             transacoes = [t for t in transacoes if t["data"].split("-")[1] == mes]
 
-        categorias = {"receitas": defaultdict(float), "despesas": defaultdict(float)}
+        categorias = {
+            "receitas": defaultdict(lambda: Decimal("0.0")),
+            "despesas": defaultdict(lambda: Decimal("0.0")),
+            }
 
         for t in transacoes:
             if t["tipo"] == "r":
