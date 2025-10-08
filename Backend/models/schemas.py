@@ -1,13 +1,14 @@
+from decimal import Decimal
 from pydantic import BaseModel
 
 
 class Receita(BaseModel):
-    valor: float
+    valor: Decimal
     descricao: str
     categoria: str
 
 
 class Despesa(BaseModel):
-    valor: float
+    valor: Decimal
     descricao: str
     categoria: str
